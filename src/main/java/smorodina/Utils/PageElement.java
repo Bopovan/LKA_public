@@ -1,16 +1,13 @@
 package smorodina.Utils;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.Assert;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
-import smorodina.Utils.NameTag;
 
 import java.lang.reflect.Field;
 import java.util.Set;
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 
 

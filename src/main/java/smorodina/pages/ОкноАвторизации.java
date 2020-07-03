@@ -3,9 +3,7 @@ package smorodina.pages;
 import com.codeborne.selenide.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import smorodina.Utils.NameTag;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -15,39 +13,38 @@ public class ОкноАвторизации {
     Configuration configuration;
 
     private Configuration getConfiguration() {
-        Configuration.baseUrl = "https://xn-----6kcfhlebnd4golc4h.xn--80ahmohdapg.xn--80asehdb";
         Configuration.browser = "firefox"; //ie //chrome //edje //opera
         Configuration.startMaximized = true;
         Configuration.holdBrowserOpen = true;
         return configuration;
     }
 
-    private Logger log = LogManager.getLogger(ОкноАвторизации.class);
+    private final Logger log = LogManager.getLogger(ОкноАвторизации.class);
 
     @NameTag(name = "Окно_авторизации")
-    private SelenideElement startWindow = $(By.id("View3D"));
+    private final SelenideElement startWindow = $(By.id("View3D"));
 
     @NameTag(name = "Поле_логин")
-    private SelenideElement loginField = $(By.xpath("//input[@placeholder = 'Логин']"));
+    private final SelenideElement loginField = $(By.xpath("//input[@placeholder = 'Логин']"));
 
     @NameTag(name = "Поле_пароль")
-    private SelenideElement passwordField = $(By.xpath("//input[@placeholder = 'Пароль']"));
+    private final SelenideElement passwordField = $(By.xpath("//input[@placeholder = 'Пароль']"));
 
     @NameTag(name = "Кнопка_входа_в_личный_кабинет")
-    private SelenideElement enterButton = $(By.xpath("//button[@class = 'abrr-ui-button primary uppercase fullwidth']"));
+    private final SelenideElement enterButton = $(By.xpath("//button[@class = 'abrr-ui-button primary uppercase fullwidth']"));
 
     @NameTag(name = "Ссылка_<Регистрация>")
-    private SelenideElement registrationLink = $(By.xpath("//a[@href = '/login/signup']"));
+    private final SelenideElement registrationLink = $(By.xpath("//a[@href = '/login/signup']"));
 
     @NameTag(name = "Ссылка_<Забыли_пароль?>")
-    private SelenideElement forgotPasswordLink = $(By.xpath("//a[@href = '/login/recovery']"));
+    private final SelenideElement forgotPasswordLink = $(By.xpath("//a[@href = '/login/recovery']"));
 
     @NameTag(name = "Ссылка_<Техническая_поддержка>")
-    private SelenideElement supportLink = $(By.xpath("//a[contains(text(), 'Задать вопрос в техническую поддержку')]"));
+    private final SelenideElement supportLink = $(By.xpath("//a[contains(text(), 'Задать вопрос в техническую поддержку')]"));
 
     @NameTag(name = "Текстовые_ошибки")
-    private SelenideElement error = $(By.xpath("//div[@class = 'view-login-error'][contains(text(),'$s')]"));
-    private String errorSQL = "Произошла ошибка обработки запроса, попробуйте еще раз.";
+    private final SelenideElement error = $(By.xpath("//div[@class = 'view-login-error'][contains(text(),'$s')]"));
+    private final String errorSQL = "Произошла ошибка обработки запроса, попробуйте еще раз.";
 
 
 

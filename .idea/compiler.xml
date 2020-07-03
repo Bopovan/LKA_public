@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="lka-automated-testing" target="1.8" />
+      <module name="lka-automated-testing" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
