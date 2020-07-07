@@ -16,7 +16,7 @@ public class ОкноАвторизации {
 
     private Configuration getConfiguration() {
         Configuration.baseUrl = "https://xn-----6kcfhlebnd4golc4h.xn--80ahmohdapg.xn--80asehdb";
-        Configuration.browser = "firefox"; //ie //chrome //edje //opera
+        Configuration.browser = "firefox"; //ie //chrome //edje //opera //firefox
         Configuration.startMaximized = true;
         Configuration.holdBrowserOpen = true;
         return configuration;
@@ -54,7 +54,7 @@ public class ОкноАвторизации {
     public void enterWithTestUserAcc(String login, String password) {
         log.debug("\n\n__________________Авторизуемся под учётной записью {} и паролем {}_____________________\n\n",login,password);
         getConfiguration();
-        Selenide.open("https://xn-----6kcfhlebnd4golc4h.xn--80ahmohdapg.xn--80asehdb/login");
+        Selenide.open("/login");
         loginField.shouldBe(Condition.visible).setValue(login);
         passwordField.setValue(password);
         enterButton.shouldBe(Condition.visible).click();

@@ -3,18 +3,16 @@ package smorodina.steps;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.impl.Waiter;
+import com.sun.xml.bind.v2.TODO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.joda.time.Seconds;
 import org.junit.Assert;
-import org.openqa.selenium.support.ui.Sleeper;
 import smorodina.pages.ОкноАвторизации;
 
-import java.time.Duration;
-
-import static com.codeborne.selenide.Condition.*;
 import static smorodina.Utils.PageElement.*;
 
 public class ОбщиеШаги {
@@ -50,29 +48,33 @@ public class ОбщиеШаги {
         Assert.assertEquals(value, value2);
     }
 
-    @Then("на \"$странице\" в календаре \"$календарь\" выбрать дату в формате \"$Дата\"")
-//    @When("на \"$странице\" в календаре \"$календарь\" выбрать дату в формате \"$ДД ММММ ГГГГ\"")
-    public void setCalendarDate(String page, String calendar, String date) throws IllegalAccessException, ClassNotFoundException {
-        ШагиСДатой dateSteps = new ШагиСДатой();
-        SelenideElement calendarElement = getElement(page, calendar);
-//        dateSteps.setDateByName(calendarElement, date);
-    }
+//    @Then("на \"$странице\" в календаре \"$календарь\" выбрать дату в формате \"$Дата\"")
+////    @When("на \"$странице\" в календаре \"$календарь\" выбрать дату в формате \"$ДД ММММ ГГГГ\"")
+//    public void setCalendarDate(String page, String calendar, String date) throws IllegalAccessException, ClassNotFoundException {
+//        ШагиСДатой dateSteps = new ШагиСДатой();
+//        SelenideElement calendarElement = getElement(page, calendar);
+////        dateSteps.setDateByName(calendarElement, date);
+//    }
 
+
+//_______//шаг реализован для DeBUG и проверке отработки системы (Временный шаг!), не использовать в системе явные ожидания без причины!___________
     @Then("ожидать \"$секунд\"")
     @When("ожидать \"$секунд\"")
     public void wait(int time) throws InterruptedException {
-       Configuration configuration = new Configuration();
-       configuration.wait(time);
-
+        Thread thread = new Thread();
+        Thread.sleep(time);
     }
+//_____________________________________________________________________________________________________________________________________________
 
+
+//#TODO из-за Boostrap и возможных проблем с дальнейшей автоматизацией работы с Комбобоксами, пока логика работы с комбобоксами реализуется внутри странц (СтраницаШаги)-проблема с xpath(свёртсано на Div элементах, стандартные методы Selenide не выбирают элемент из комбобокса)
 //    @When("на \"$странице\" в комбобоксе \"$поле\" выбрать значение \"$текст\"")
 //    @Then("на \"$странице\" в комбобоксе \"$поле\" выбрать значение \"$текст\"")
 //    public void setValueCombobox(String page, String field, String value) throws IllegalAccessException, ClassNotFoundException {
-////        getElement(page, field).shouldBe(Condition.visible).click();
+//        getElement(page, field).shouldBe(Condition.visible).click();
 //        getElement(page, field).setValue(value);
-//
 //        log.debug("\n\n______________________На странице {} в комбобоксе {}, выбираем значение {}________________________\n\n", page, field, value);
 //    }
+
 
 }
