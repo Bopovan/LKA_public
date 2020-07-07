@@ -13,7 +13,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class БоковаяПанель {
-    private Logger log = LogManager.getLogger(БоковаяПанель.class);
 
     @NameTag(name = "Кнопка Выход на главном экране")
     private SelenideElement quitButton = $(By.xpath("//button[@class='abrr-ui-button circle base lk-mainframe-header-exit']"));

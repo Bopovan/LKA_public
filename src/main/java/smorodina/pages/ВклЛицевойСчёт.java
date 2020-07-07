@@ -5,6 +5,7 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import smorodina.Utils.NameTag;
 
@@ -59,6 +60,44 @@ public class ВклЛицевойСчёт {
     @NameTag(name = "Вкладка Лицевой счёт / Номер счетчика")
     private SelenideElement fieldCounterNumber = $(By.xpath("//div[@class='lk-page-accountview-widget-counter-value']/following-sibling::div[1]"));
 
+    //==============================Вкладка платежи==============================
+
+    @NameTag(name = "Кнопка {Детализация}")
+    private SelenideElement btnDetails = $(By.xpath("//*[contains(text(),'Детализаци')]/.."));
+
+//    @NameTag(name = "Кнопка {Детализация}")
+//    private SelenideElement btnDetails = $(By.xpath("//*[contains(text(),'Детализаци')]/.."));
+
+    //локатор Через какого агента была сделана оплата
+
+    private String fieldAgent = "//*[contains(text(),'%s')]/../../..//div[contains(text(),'%s')]";
+    //локатор для рублей
+    private String fieldRub = "//*[contains(text(),'02 февраля 2020')]/../../..//..//span[text() = '546']";
+    //локатор для копеек
+    private String fieldCop = "//*[contains(text(),'02 февраля 2020')]/..//*[contains(text(),'13')]";
+
+
+    //==============================Вкладка Абонента==============================
+    //__________Таблица Карточка абонента__________
+    @NameTag(name = "Номер лицевого счёта")
+    private SelenideElement numberOfAcc = $(By.xpath(""));
+
+    public void getValueByLine(String nameLine, String expectedValue) {
+        log.trace("___________________________________________________\n\n  Пробуем получить коллекцию строк в таблице \n\n ___________________________________________________");
+        ElementsCollection linesCollection = $$(By.xpath("//tr/td/span"));
+        log.trace("___________________________________________________\n\n  Получили коллекцию строк \n\n ___________________________________________________");
+        log.trace("___________________________________________________\n\n  Получаем линию с нужным нам Наименованием \n\n ___________________________________________________");
+        final SelenideElement expectedLine = linesCollection.find(Condition.text(nameLine));
+        log.trace("___________________________________________________\n\n  Из полученной линии достаём текст \n\n ___________________________________________________");
+        String value = expectedLine.$x("//../../td[2]").getText();
+        log.trace("___________________________________________________\n\n  такст : {} \n\n ___________________________________________________", value);
+        Assert.assertEquals(expectedValue, value);
+    }
+
+
+    public void checkPayments(String checkedDay, boolean money) {
+
+    }
 
     public void pressBtnReceipt() {
         log.trace("Нажимаем на кнопку {Квитанция}");
@@ -87,7 +126,7 @@ public class ВклЛицевойСчёт {
         }
     }
 
-    public void checkWindowDevicesIsDisplayed () {
+    public void checkWindowDevicesIsDisplayed() {
         log.trace("Проверяем, отображается ли окно Приборы учета ");
         windowDevices.shouldBe(Condition.visible);
     }
