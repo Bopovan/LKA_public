@@ -1,39 +1,35 @@
 package smorodina;
 
-import org.jbehave.core.annotations.AfterScenario;
-import org.jbehave.core.annotations.BeforeScenario;
-import org.jbehave.core.annotations.ScenarioType;
-import smorodina.pages.ОкноАвторизации;
+import com.codeborne.selenide.WebDriverRunner;
+import io.cucumber.core.api.Scenario;
+import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
+import io.cucumber.java.Before;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import smorodina.steps.ОбщиеШаги;
+import smorodina.steps.ШагиАвторизации;
 
 public class Hooks {
-    @BeforeScenario
-    public void beforeEachScenario() {
-        ОкноАвторизации page = new ОкноАвторизации();
-        page.enterWithTestUserAcc("9128553333","Qwerty123");
+
+    @Before
+    public void openStartPageBefore() {
+        new ШагиАвторизации().avtologIn("9128553333", "Qwerty123");
+
     }
 
-//    @BeforeScenario(uponType=ScenarioType.EXAMPLE)
-//    public void beforeEachExampleScenario() {
-//        // ...
-//    }
-//
-//    @AfterScenario // equivalent to  @AfterScenario(uponOutcome=AfterScenario.Outcome.ANY)
-//    public void afterAnyScenario() {
-//        // ...
-//    }
-//
-//    @AfterScenario(uponType= ScenarioType.EXAMPLE)
-//    public void afterEachExampleScenario() {
-//        // ...
-//    }
-//
-//    @AfterScenario(uponOutcome=AfterScenario.Outcome.SUCCESS)
-//    public void afterSuccessfulScenario() {
-//        // ...
-//    }
-//
-//    @AfterScenario(uponOutcome= AfterScenario.Outcome.FAILURE)
-//    public void afterFailedScenario() {
-//        // ...
-//    }
+    @After
+    public void screenShotAfterTest(Scenario scenario) {
+        TakesScreenshot ts = (TakesScreenshot) WebDriverRunner.getWebDriver();
+        byte[] sourcePath = ts.getScreenshotAs(OutputType.BYTES);
+        scenario.embed(sourcePath, "image/png");
+        new ОбщиеШаги().exit();
+    }
+
+    @AfterStep
+    public void screenShotAfterStep(Scenario scenario) {
+        TakesScreenshot ts = (TakesScreenshot) WebDriverRunner.getWebDriver();
+        byte[] sourcePath = ts.getScreenshotAs(OutputType.BYTES);
+        scenario.embed(sourcePath, "imageStep/jpeg");
+    }
 }

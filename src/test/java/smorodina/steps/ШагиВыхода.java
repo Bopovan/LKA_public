@@ -1,7 +1,7 @@
 package smorodina.steps;
 
 import com.codeborne.selenide.SelenideElement;
-import cucumber.api.java.en.Then;
+import io.cucumber.java.en.Then;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import smorodina.pages.МОкноВыхода;

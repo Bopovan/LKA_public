@@ -1,5 +1,6 @@
 package smorodina.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.apache.logging.log4j.LogManager;
@@ -24,12 +25,13 @@ public class ВклДоговоры {
     @NameTag(name = "Строчка в таблице")
     private String tableWithName = "//table//*/tr[contains(.,'%s')]"; // можно на точное совпадение, а можно сделать по номеру договора (#321)
 
-    @NameTag(name = "Кнопка {Продолжить заполонение} в строчке с нужным договором")
-    private String btnContinue = "//table//*/tr[contains(.,'%s')]//button[@class = 'abrr-ui-button primary uppercase smallsize']";
-//_____________________временно______________________
-    @NameTag(name = "Кнопка {Продолжить заполонение}")
-    private SelenideElement btn1Continue = $(By.xpath("//table//*/tr[contains(.,'639')]//button[@class = 'abrr-ui-button primary uppercase smallsize']"));
-//____________________________________________________
+//    @NameTag(name = "Кнопка {Продолжить заполонение} в строчке с нужным договором")
+//    private String btnContinue = "//table//*/tr[contains(.,'%d')]//button[@class = 'abrr-ui-button primary uppercase smallsize']";
+
+    @NameTag(name = "Строка в таблице с нужным договором")
+    private String lineWithContract = "//table//*/tr[contains(.,'%d')]";
+
+
     @NameTag(name = "Кнопка {Удалить} в строчке с нужным договором")
     private String btnDelete = "//table//*/tr[contains(.,'Договор на поставку газа')]//button[@class = 'abrr-ui-button ghost uppercase smallsize']";
 
@@ -50,7 +52,7 @@ public class ВклДоговоры {
     @NameTag(name = "Поле Отчество")
     private SelenideElement fieldMiddleName = $(By.xpath("//*[contains(.,'Отчество')]/div[@class = 'abrr-ui-textfield-wrapper']/input"));
 
-//--------------------------------------------------Поля Место жительства-------------------------------------------------------------------
+    //--------------------------------------------------Поля Место жительства-------------------------------------------------------------------
 //______________________________________!!Универсальные поля, для всех шагов создания нового Договора!!_____________________________________
     @NameTag(name = "Поле Регион")
     private SelenideElement fieldRegion = $(By.xpath("//*[contains(.,'Регион')]/div[@class = 'abrr-ui-textfield-wrapper']/input"));
@@ -163,8 +165,17 @@ public class ВклДоговоры {
     private SelenideElement comboboxLocationAddEquipment1 = $(By.xpath("//div/div/div[contains(text(),'Место присоединения прибора учета газа')]/.."));
 
 
+//    public void continueContractWork(int numAcc) {
+//        SelenideElement expectedBtn = $(By.xpath(String.format(btnContinue, numAcc))).waitUntil(Condition.visible, 5000);
+//        expectedBtn.click();
+//    }
 
-
+    public void continueContractWork(int numAcc, String btn) {
+        log.debug("________________________________________________________\n\n    Находим нужную строку с договором: :{}. \n\n________________________________________________________", numAcc);
+        SelenideElement expectedLine = $(By.xpath(String.format(lineWithContract, numAcc))).waitUntil(Condition.visible, 5000);
+        log.debug("________________________________________________________\n\n    В нужной нам строчке нажимаем на кнпоку :{}. \n\n________________________________________________________", btn);
+        expectedLine.find(By.xpath(String.format("//*[contains(text() , '%s')]/..", btn))).click();
+    }
 
 
 }

@@ -3,14 +3,13 @@ package smorodina.steps;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import io.cucumber.java.en.Then;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jbehave.core.annotations.Then;
-import org.jbehave.core.annotations.When;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
-import org.springframework.util.Assert;
 import smorodina.pages.ВклДоговоры;
 
 import java.awt.*;
@@ -26,8 +25,7 @@ public class ШагиСДатой {
     private Logger log = LogManager.getLogger(ШагиСДатой.class);
     ВклДоговоры pageContracts;
 
-    @Then("на ВклДоговоры в календаре Календарь-поле дата выдачи выбрать значение \"$ДД\" \"$месяц\" \"$ГГГГ\"")
-    @When("на ВклДоговоры в календаре Календарь-поле дата выдачи выбрать значение \"$ДД\" \"$месяц\" \"$ГГГГ\"")
+    @Then("на ВклДоговоры в календаре Календарь-поле дата выдачи выбрать значение {int} {string} {int}")
     public void stepSetDateInCalendar(int date, String month, int year) {
         setCalendarDate(date, month, year);
     }
@@ -83,7 +81,7 @@ public class ШагиСДатой {
 
         while (!monthInBound) {
             log.debug("\n____________________________________________________________\n Пробуем выбрать месяц на форме \n____________________________________________________________");
-            Assert.notNull(monthsMap.get(month), "\n______________________________________________________________\n\n   Такого месяца не существует: \"" + month + "\".  \n______________________________________________________________\n");
+            Assert.assertNotNull("\n______________________________________________________________\n\n   Такого месяца не существует: \"" + month + "\".  \n______________________________________________________________\n",monthsMap.get(month));
             if (monthsMap.get(month).equals(checkSelectedMonth.getText())) {
                 monthInBound = true;
             } else {

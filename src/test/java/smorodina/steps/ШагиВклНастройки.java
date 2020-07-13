@@ -1,6 +1,6 @@
 package smorodina.steps;
 
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.When;
 import smorodina.pages.ВклНастройки;
 
 public class ШагиВклНастройки {

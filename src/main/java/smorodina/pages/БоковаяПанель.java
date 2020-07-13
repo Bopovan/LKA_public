@@ -15,7 +15,7 @@ import static com.codeborne.selenide.Selenide.$$;
 public class БоковаяПанель {
 
     @NameTag(name = "Кнопка Выход на главном экране")
-    private SelenideElement quitButton = $(By.xpath("//button[@class='abrr-ui-button circle base lk-mainframe-header-exit']"));
+    public SelenideElement quitButton = $(By.xpath("//button[@class='abrr-ui-button circle base lk-mainframe-header-exit']"));
 
     @NameTag(name = "Поле с именем пользователя")
     private SelenideElement nameField = $(By.xpath("//button[@class = 'abrr-ui-button circle base lk-mainframe-header-exit']/../div[1]"));
@@ -50,5 +50,17 @@ public class БоковаяПанель {
     @NameTag(name = "Вкладка Техническая поддержка")
     private SelenideElement technicalSupportTab = $(By.xpath("//div[contains(text(),'Техническая поддержка')]/../.."));
 
+    @NameTag(name = "Коллекция пунктов меню")
+    private ElementsCollection collectionMenuElements = $$(By.xpath("//div[contains(@class,'lk-mainframe-nav-menu-item-label')]"));
+
+    public boolean sideBarIsVisible() {
+        boolean sideBarISVisible = false;
+        SelenideElement elementMenu = collectionMenuElements.get((int) (Math.random() * collectionMenuElements.size()));
+        if (elementMenu.is(Condition.visible)) {
+            return sideBarISVisible = true;
+        } else {
+            return sideBarISVisible;
+        }
+    }
 
 }

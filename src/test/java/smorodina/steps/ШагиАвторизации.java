@@ -1,6 +1,6 @@
 package smorodina.steps;
 
-import cucumber.api.java.en.Given;
+import io.cucumber.java.en.Given;
 import smorodina.pages.ОкноАвторизации;
 
 public class ШагиАвторизации {

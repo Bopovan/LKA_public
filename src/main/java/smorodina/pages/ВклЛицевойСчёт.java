@@ -19,7 +19,15 @@ public class ВклЛицевойСчёт {
 
     private Logger log = LogManager.getLogger(ВклЛицевойСчёт.class);
 
+    ВклЛицевойСчёт() {
+        firstWindow.waitUntil(Condition.visible,15000);
+    }
+
+    @NameTag(name = "Страница Лицевой счёт")
+    private final SelenideElement firstWindow = $(By.xpath("//div[@class = 'lk-page-accountview-widget']/../.."));
+
     //==============================Элементы карточки УСЛУГИ==============================
+
     @NameTag(name = "Окно Услуги")
     private SelenideElement tabPersonalAccountWindowServices = $(By.xpath("//div[@class = 'lk-page-accountview-widget'][contains(.,'Услуги')]"));
 
@@ -32,10 +40,8 @@ public class ВклЛицевойСчёт {
     @NameTag(name = "Вкладка Лицевой счёт / Кнопка {Раскрыть список услуг}")
     private SelenideElement tabPAbuttonExpandlistServices = $(By.xpath("//button[@class = 'abrr-ui-button green ghost uppercase base']"));
 
-
     @NameTag(name = "Вкладка Лицевой счёт / Коллекция \"Состояний по услугам\"")
     private ElementsCollection collectionServiceStatus = $$(By.xpath("//*[@class = 'lk-page-accountview-widget-payment-subtitle']"));
-
 
     //==============================Элементы карточки ПРИБОРЫ УЧЕТА==============================
 
