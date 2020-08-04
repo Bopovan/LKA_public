@@ -6,7 +6,7 @@ import smorodina.pages.ОкноАвторизации;
 public class ШагиАвторизации {
     ОкноАвторизации окноАвторизации = new ОкноАвторизации();
 
-    @Given("Открыть тестовый стенд")
+    @Given("открыть тестовый стенд")
     public void openPage() {
         окноАвторизации.openStartPage();
     }
@@ -15,4 +15,6 @@ public class ШагиАвторизации {
     public void avtologIn(String login, String password) {
         окноАвторизации.enterWithTestUserAcc(login, password);
     }
+
+
 }

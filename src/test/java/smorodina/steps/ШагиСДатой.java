@@ -13,9 +13,9 @@ import org.openqa.selenium.interactions.Actions;
 import smorodina.pages.ВклДоговоры;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -111,6 +111,7 @@ public class ШагиСДатой {
 
 
     }
+
 }
 
 

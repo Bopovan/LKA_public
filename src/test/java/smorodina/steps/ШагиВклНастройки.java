@@ -4,7 +4,7 @@ import io.cucumber.java.en.When;
 import smorodina.pages.ВклНастройки;
 
 public class ШагиВклНастройки {
-    ВклНастройки вклНастройки;
+    ВклНастройки вклНастройки = new ВклНастройки();
 
     @When("на вклНастройки в таблице нажать на кнопку \"Отключить\" у счёта {string}")
     public void clickOffBtn(String numberAcc) {
@@ -18,12 +18,28 @@ public class ШагиВклНастройки {
 
     @When("на вклНастройки в таблице проверить, что содержится счёт: {string}")
     public void checkContainsInTable(String numberAcc) {
-        вклНастройки.checkAccInTable(numberAcc,true);
+        вклНастройки.checkAccInTable(numberAcc, true);
     }
 
     @When("на вклНастройки в таблице проверить, что не содержится счёт: {string}")
     public void checkNotContainsInTable(String numberAcc) {
-        вклНастройки.checkAccInTable(numberAcc,false);
+        вклНастройки.checkAccInTable(numberAcc, false);
     }
+
+    @When("на вклНастройки проверить, что привязана карта с последними цифрами: {string}")
+    public void checkLastFourNum(String num) {
+        вклНастройки.findNeedCard(num);
+    }
+
+    @When("на вклНастройки проверить, что карта НЕ отображается, с последними цифрами: {string}")
+    public void checkLastFourNumIsNotDiplayed(String num) {
+        вклНастройки.cardIsNotDisplayed(num);
+    }
+
+    @When("на вклНастройки удалить привязанную карту с последними 4 цифрами:{string}")
+    public void deleteCard(String num) {
+        вклНастройки.destroyCard(num);
+    }
+
 
 }

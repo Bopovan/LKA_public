@@ -2,6 +2,7 @@ package smorodina.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.conditions.Visible;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -16,12 +17,20 @@ public class ВклНастройки {
     @NameTag(name = "Таблица с подключёнными счетами")
     private SelenideElement tableWithAcc = $(By.xpath("//div[@class = 'ant-table-body']"));
 
+    @NameTag(name = "Вкладка {Карты}")
+    private SelenideElement tabCards = $(By.xpath("//*[contains(text(),'Карты')]"));
+
+    @NameTag(name = "Кнопка-иконка добавить карту")
+    private SelenideElement btnAddCards = $(By.xpath("//*[contains(@class ,'abrr-ui-plastic-card-addcard')]"));
+
+
     @NameTag(name = "Кнопка Подключить Лицевой счёт")
     private SelenideElement btnAddAcc = $(By.xpath("//button[@class = 'abrr-ui-button primary uppercase']"));
 
     @NameTag(name = "Коллекция строк в таблице")
 //    private SelenideElement collectionAccInTable = $(By.xpath("//table/tbody"));
     private String checkAccInTableIsDisplay = "//tr[contains(.,'%s')]";
+
 
     @NameTag(name = "Кнопка Переименовать")
     private String btnRename = "//tr[contains(.,'%s')]/td[3]//*[@class = 'abrr-ui-button primary ghost']";
@@ -53,13 +62,50 @@ public class ВклНастройки {
 
     @NameTag(name = "Всплывающее окно/ Кнопка {Х}")
     private SelenideElement popUpBtnClose = $(By.xpath("//button[@class = 'abrr-ui-modal-closeButton']")); //проверить, эелемент общий? на всех вспылвающих окнах?
-    //-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+    @NameTag(name = "Имя карты в системе")
+    private SelenideElement cardName = $(By.xpath("//div[contains(@class,'abrr-ui-title-title small')]"));
+
+    @NameTag(name = "поле для нового имени Карты")
+    private SelenideElement fieldNewName = $(By.xpath("//input[@type = 'text']"));
+
+    @NameTag(name = "Кнопка Сохранить после переименования")
+    private SelenideElement btnSaveRename = $(By.xpath("//*[contains(text(),'Сохранить')]/.."));
+
+    @NameTag(name = "Кнопка Удалить карту")
+    private SelenideElement btnDeleteCard = $(By.xpath("//*[contains(text(),'Удалить карту')]/.."));
+
+
+    @NameTag(name = "коллекция пркреплённых банковских карт")
+    public String addCards = "//div[contains(text(),'%s')]/..";
+
+
+
+
+
+
+
+    public void findNeedCard(String lastFourNum) {
+        log.trace("____________________________________\n\n пробуем найти карту с последними цифрами: {}", lastFourNum);
+        SelenideElement element = $(By.xpath(String.format(addCards, lastFourNum)));
+        element.shouldBe(Condition.visible);
+    }
+
+    public void cardIsNotDisplayed(String lastFourNum) {
+        log.trace("____________________________________\n\n пробуем найти карту, которой не должно быть! с последними цифрами: {}", lastFourNum);
+        SelenideElement element = $(By.xpath(String.format(addCards, lastFourNum)));
+        element.shouldBe(Condition.not(Condition.visible));
+    }
+
 
     public void clickBtnOffAcc(String numberAcc) {
         log.debug("_________________Проверяем, что счёт {} присутствует в таблице___________________", numberAcc);
-        SelenideElement checkAccIsDISPL = $(By.xpath(String.format(checkAccInTableIsDisplay,numberAcc))).shouldBe(Condition.visible);
+        SelenideElement checkAccIsDISPL = $(By.xpath(String.format(checkAccInTableIsDisplay, numberAcc))).shouldBe(Condition.visible);
         log.debug("_________________Создаём xpath___________________");
-        SelenideElement findBtnOff = $(By.xpath(String.format(btnOff,numberAcc)));
+        SelenideElement findBtnOff = $(By.xpath(String.format(btnOff, numberAcc)));
         log.debug("_________________xpath {}___________________", findBtnOff);
         findBtnOff.shouldBe(Condition.visible);
         log.debug("_________________Нажимаем на кнопку {Отключить}, у счёта {}___________________", numberAcc);
@@ -104,6 +150,12 @@ public class ВклНастройки {
             check.shouldBe(Condition.hidden);
             log.debug("_______________Проверяем НЕ ОТОБРАЖАЕТСЯ элемент на странице? значение параметра {}_________________", condition);
         }
+    }
+
+    public void destroyCard(String numCard) {
+        SelenideElement card = $(By.xpath(String.format(addCards,numCard))).shouldBe(Condition.visible);
+        card.click();
+        btnDeleteCard.shouldBe(Condition.visible).click();
     }
 
 }

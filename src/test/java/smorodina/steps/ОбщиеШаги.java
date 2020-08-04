@@ -3,11 +3,13 @@ package smorodina.steps;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.SelenideWait;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 import smorodina.pages.БоковаяПанель;
 import smorodina.pages.МОкноВыхода;
 import smorodina.pages.ОкноАвторизации;
@@ -27,6 +29,23 @@ public class ОбщиеШаги {
     public void pressBtn(String page, String element) throws Exception {
         log.debug("\n\n_______________________На странице {} нажимаем на элемент {}_______________\n\n", page, element);
         getElement(page, element).waitUntil(Condition.visible, implicityWait).click();
+    }
+
+    @When("на {string} в комбобоксе {string} выбрать значение {string}")
+    public void pressBtn(String page, String element, String value) throws Exception {
+        log.debug("\n\n_______________________На странице {} в комбобоксе {} выбираем занчение {}_______________\n\n", page, element, value);
+        getElement(page, element).waitUntil(Condition.visible, implicityWait).selectOption(value);
+    }
+
+    @When("на {string} активировать чек-бокс {string}")
+    public void pressCheckBox(String page, String checkBox) throws Exception {
+        log.debug("\n\n_______________________На странице {} активируем чек-бокс {}_______________\n\n", page, checkBox);
+        SelenideElement checkBoxInStep = getElement(page, checkBox);
+        if(!checkBoxInStep.isSelected()) {
+            checkBoxInStep.setSelected(true);
+        }
+
+
     }
 
 
@@ -58,6 +77,12 @@ public class ОбщиеШаги {
     @Then("ожидать {int} секунд")
     public void wait(int time) {
         Selenide.sleep(time * 1000);
+    }
+
+    @Then("переключиться на модальное окно под номером {int}")
+    public void switchToNewWindow(int numWindow) {
+        Selenide.sleep(3000);
+        Selenide.switchTo().window(numWindow);
     }
 
     @When("выйти из системы")

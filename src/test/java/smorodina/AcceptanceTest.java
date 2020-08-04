@@ -6,6 +6,7 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/stories/signUp")
+@CucumberOptions(features = "src/test/resources/stories/signUp",
+        glue = {"smorodina.steps", "smorodina.hooks"})
 public class AcceptanceTest {
 }
