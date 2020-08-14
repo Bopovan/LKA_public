@@ -1,11 +1,20 @@
 package smorodina.steps;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.passay.PasswordGenerator;
+import smorodina.ConnectionSQL;
+import smorodina.pages.МОкноКодПодтверждения;
+import smorodina.pages.ОкноАвторизации;
+import smorodina.pages.ОкноРегистрации;
+
 import javax.mail.*;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
@@ -15,14 +24,21 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MailApi {
-    private final Logger log = LogManager.getLogger(MailApi.class);
+public class ШагиРегистрации {
+    private final Logger log = LogManager.getLogger(ШагиРегистрации.class);
+
+    ConnectionSQL sql = new ConnectionSQL();
+    ОкноРегистрации page = new ОкноРегистрации();
+    МОкноКодПодтверждения page2 = new МОкноКодПодтверждения();
+    ОкноАвторизации page3 = new ОкноАвторизации();
 
     private String RANDOMMAIL = "";
     private String RANDOMPASSWORD = "";
 
 
-    public String getRANDOMPASSWORD() {return RANDOMPASSWORD;}
+    public String getRANDOMPASSWORD() {
+        return RANDOMPASSWORD;
+    }
 
     @When("сгенерировать новый пароль от 6 до 20 символов") // старые пароли удаляются
     public void setRANDOMPASSWORD() {
@@ -35,24 +51,27 @@ public class MailApi {
         this.RANDOMPASSWORD = password;
     }
 
-    public String getRANDOMMAIL() {return RANDOMMAIL = setRANDOMMAIL();}
+    public String getRANDOMMAIL() {
+        return RANDOMMAIL;
+    }
 
     @Then("сгенерировать тестовую почту") // старый почтовый ящик затирается
-    public String setRANDOMMAIL() {
+    public void setRANDOMMAIL() {
         String randomMailBody = "lka_gaz_mail"; // тело почтового ящика
         String randomMailEnd = "@bk.ru"; // домен зарегистрированный на mail.ru
         String randomPartOfMail = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_HH_mm"));   // уникальная часть почтового тега, созданная из даты+время - для удобного поиска в ящике
 //        sout(randomMailBody + "+" + randomPartOfMail + randomMailEnd);
-        return (randomMailBody + "+" + randomPartOfMail + randomMailEnd); // возвращаем склееный рандомный ящик с уникальным телом
+        this.RANDOMMAIL = randomMailBody + "+" + randomPartOfMail + randomMailEnd; // возвращаем склееный рандомный ящик с уникальным телом
     }
 
 
-    public void getLastMessageMail(String userName, String password) {
+    public String getLastMessageMail() {
+        String value = "";
         try {
             Properties props = new Properties();
             String host = "imap.mail.ru";
-//            String userName = "lka_gaz_mail@bk.ru";
-//            String password = "91119111iv!";
+            String userName = "lka_gaz_mail@bk.ru";
+            String password = "91119111iv!";
             String provider = "imaps";
 
             Session session = Session.getInstance(props);
@@ -75,23 +94,51 @@ public class MailApi {
                 if (matcher.find()) {
                     String s1 = matcher.group();
                     System.out.println(s1);
+                    value = s1;
                 }
             }
             inbox.close(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return value;
     }
 
     @When("создать тестового пользователя и заполнить поля Регистрации валидными данными")
-    public void preSetRegistration(){
+    public void preSetRegistration() {
         setRANDOMMAIL();
+        Assert.assertNotNull(getRANDOMMAIL());
+        log.trace("Генерируем случайный почтовый ящик: {}", this::getRANDOMMAIL);
+        page.fieldLogin.shouldBe(Condition.visible).setValue(getRANDOMMAIL());
         setRANDOMPASSWORD();
+        Assert.assertNotNull(getRANDOMMAIL());
+        log.trace("Генерируем случайный пароль: {}", this::getRANDOMPASSWORD);
+        page.fieldPassword.shouldBe(Condition.visible).setValue(getRANDOMPASSWORD());
+        page.fieldRepeatPassword.shouldBe(Condition.visible).setValue(getRANDOMPASSWORD());
     }
 
+    @When("проверить, что ошибка с текстом {string}")
+    public void checkErrorIsDisplayed(String textError) {
+        page.isDisplayedErrorWithText(textError).shouldBe(Condition.visible);
+    }
 
-    public static void main(String[] args) {
-        new MailApi().setRANDOMPASSWORD();
+    @When("в поле Код подтверждения ввести код из письма")
+    public void setAccCode() throws SQLException, ClassNotFoundException {
+        String sqlValue = sql.getCodeActivation(getRANDOMMAIL());
+        String emailValue = getLastMessageMail();
+        int count = 0;
+        while (!sqlValue.equals(emailValue) && count < 5) {
+            log.trace("Ожидаем 5 секунд и проверяем равны ли показания {} и {} где count = {}", sqlValue, emailValue,count);
+            Selenide.sleep(5000);
+            count++;
+        }
+        page2.fieldConfirmationCode.shouldBe(Condition.visible).setValue(emailValue);
+    }
+
+    @When("повторно авторизоваться под сгенерированным пользователем")
+    public void reAut(){
+        page3.loginField.shouldBe(Condition.visible).setValue(getRANDOMMAIL());
+        page3.passwordField.shouldBe(Condition.visible).setValue(getRANDOMPASSWORD());
     }
 
 

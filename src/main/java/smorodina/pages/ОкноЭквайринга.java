@@ -1,5 +1,6 @@
 package smorodina.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import smorodina.Utils.NameTag;
@@ -7,6 +8,18 @@ import smorodina.Utils.NameTag;
 import static com.codeborne.selenide.Selenide.$;
 
 public class ОкноЭквайринга {
+
+    private String transactionNumber = "";
+
+    public String getTransactionNumber() {
+        return transactionNumber;
+    }
+
+    public void setTransactionNumber(String transactionNumber) {
+        this.transactionNumber = transactionNumber;
+    }
+
+
 
     /*
     Страница регистрации
@@ -81,6 +94,16 @@ public class ОкноЭквайринга {
     @NameTag(name = "кнопка Отмена")
     private SelenideElement payBtnCancle = $(By.xpath("//button[contains(text(),'Отмена')]"));
 
+    @NameTag(name = "текст Номер транзакции")
+    private SelenideElement transactionNumberOnCheck = $(By.xpath("//td[text() = 'Номер чека']/following-sibling::td"));
+
+
+
+
+
+    public void saveTransNum(){
+       setTransactionNumber(transactionNumberOnCheck.shouldBe(Condition.visible).getText());
+    }
 
 
 

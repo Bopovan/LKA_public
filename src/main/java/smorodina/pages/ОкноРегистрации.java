@@ -20,19 +20,27 @@ public class ОкноРегистрации {
     private SelenideElement hrefBackInToYourAccount = $(By.xpath("//a[@href = '/login']"));
 
     @NameTag(name = "Поле_Логин_Телефон/Эл.почта")
-    private SelenideElement fieldLogin = $(By.xpath("//input[@placeholder = 'Логин (Телефон/Эл.почта)']"));
+    public SelenideElement fieldLogin = $(By.xpath("//input[@placeholder = 'Логин (Телефон/Эл.почта)']"));
 
     @NameTag(name = "Поле_Пароль")
-    private SelenideElement fieldPassword = $(By.xpath("//input[@placeholder = 'Пароль']"));
+    public SelenideElement fieldPassword = $(By.xpath("//input[@placeholder = 'Пароль']"));
 
     @NameTag(name = "Поле_Повторите_пароль")
-    private SelenideElement fieldRepeatPassword = $(By.xpath("//input[@placeholder = 'Повторите пароль']"));
-
-    @NameTag(name = "Кнопка_Зарегистрироваться")
-    private SelenideElement btnRegistration = $(By.xpath("//button[@class = 'abrr-ui-button primary uppercase fullwidth']"));
+    public SelenideElement fieldRepeatPassword = $(By.xpath("//input[@placeholder = 'Повторите пароль']"));
 
     @NameTag(name = "Ссылка_Задать_вопрос_в_техническую_поддержку")
     private SelenideElement hrefSupport = $(By.xpath("//a[contains(text(),'Задать вопрос в техническую поддержку')]"));
+
+    @NameTag(name = "Ошибки с текстом")
+    private String collectionErrors = "//*[contains(text(), '%s')]";
+
+    @NameTag(name = "Кнопка_Зарегистрироваться")
+    private SelenideElement btnRegistration = $(By.xpath("//div[contains(text(), 'Зарегистрироваться')]/.."));
+
+
+    public SelenideElement isDisplayedErrorWithText(String error){
+        return $(By.xpath(String.format(collectionErrors,error)));
+    }
 
 
     public void backInAccount () {

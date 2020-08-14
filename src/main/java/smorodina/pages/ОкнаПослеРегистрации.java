@@ -41,17 +41,23 @@ public class ОкнаПослеРегистрации {
     @NameTag(name = "Комбобокс_Выберите_ресурсоснабжающую_организацию")
     private SelenideElement comboboxSelectOrganization = $(By.xpath("//div[@class='ant-select-selection__rendered']"));
 
+    @NameTag(name = "Текст Какая региональная газовая компания Вас обслуживает?")
+    private SelenideElement targetText1 = $(By.xpath("//div[contains(text(),'Какая региональная газовая компания Вас обслуживает?')]"));
+
+    @NameTag(name = "Поле_Выберите_ресурсоснабжающую_организацию")
+    private SelenideElement fieldSelectOrganization = $(By.xpath("//input"));
+
     @NameTag(name = "Окно_подключить_счет/Кнопка_отмена")
     private SelenideElement btnCancel = $(By.xpath("//button[@class='abrr-ui-button primary ghost lk-buddyview-buddy-button']"));
 
-    @NameTag(name = "Окно_подключить_счет/Кнопка_продолжить")
+    @NameTag(name = "Кнопка_продолжить")
     private SelenideElement btnContinue = $(By.xpath("//button[@class='abrr-ui-button primary lk-buddyview-buddy-button']"));
 
-    @NameTag(name = "Окно_подключить_счет/Кнопка_продолжить_заблокированная")
+    @NameTag(name = "Кнопка_продолжить_заблокированная")
     private SelenideElement btnContinueBlocked = $(By.xpath("//*[@class='abrr-ui-button primary disabled lk-buddyview-buddy-button']"));
 
-    @NameTag(name = "Окно_подключить_счет/Поле_введите_номер_счета")
-    private SelenideElement fieldNumberAcc = $(By.xpath("//*[@class= 'abrr-ui-textfield-wrapper']"));
+    @NameTag(name = "Поле_введите_номер_счета")
+    private SelenideElement fieldNumberAcc = $(By.xpath("//input"));
 
 //    @NameTag(name = "Окно_подключить_счет/Поле_введите_номер_счета")
 //    private SelenideElement  = $(By.xpath("//*[@type='text']"));

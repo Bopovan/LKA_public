@@ -12,17 +12,17 @@ public class МОкноКодПодтверждения {
 
     private Logger log = LogManager.getLogger(МОкноВыхода.class);
 
-    @NameTag(name = "МОкно_с_полем_для_кода_подтверждения")
+    @NameTag(name = "МОкно с полем для кода подтверждения")
     private SelenideElement windowConfirmationCode = $(By.xpath("//p[contains(.,'В течение нескольких минут Вам придёт письмо с кодом, который необходимо ввести в форму ниже.')]/.."));
 
-    @NameTag(name = "Поле_для_ввода_Кода_Подтверждения")
-    private SelenideElement fieldConfirmationCode = $(By.xpath("//*[@class='abrr-ui-button primary uppercase fullwidth']/preceding-sibling::*[1]"));
+    @NameTag(name = "Поле для ввода Кода Подтверждения")
+    public SelenideElement fieldConfirmationCode = $(By.xpath("//input[@maxlength]"));
 
-    @NameTag(name = "Кнопка_Отправить_Код_Повторно")
-    private SelenideElement btnRepeatSend = $(By.xpath("//button[@class='abrr-ui-button primary uppercase fullwidth'][contains(.,'Отправить код повторно')]"));
+    @NameTag(name = "Кнопка Отправить Код Повторно")
+    private SelenideElement btnRepeatSend = $(By.xpath("//button[contains(.,'Отправить код повторно')]"));
 
-    @NameTag(name = "Кнопка_Отправить")
-    private SelenideElement btnSend = $(By.xpath("//button[@class='abrr-ui-button primary uppercase fullwidth'][contains(.,'Подтвердить')]"));
+    @NameTag(name = "Кнопка Подтвердить")
+    private SelenideElement btnSend = $(By.xpath("//button[contains(.,'Подтвердить')]"));
 
 //    @NameTag(name = "Кнопка_Отправить")
 //    private SelenideElement  = $(By.xpath("//button[@class='abrr-ui-button primary uppercase fullwidth'][contains(.,'Подтвердить')]"));

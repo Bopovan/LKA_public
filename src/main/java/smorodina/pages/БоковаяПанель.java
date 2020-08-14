@@ -21,7 +21,7 @@ public class БоковаяПанель {
     private SelenideElement nameField = $(By.xpath("//button[@class = 'abrr-ui-button circle base lk-mainframe-header-exit']/../div[1]"));
 
     @NameTag(name = "Кнопка разворачивание подключенных счетов")
-    private SelenideElement openAllAccounts = $(By.xpath("//div[@class = 'lk-mainframe-accountlist false']/.."));
+    private SelenideElement openAllAccounts = $(By.xpath("//*[contains(@class,'anticon-down-circle-o')]/../.."));
 
     @NameTag(name = "Номер активного счёта")
     private SelenideElement activeAccountNumber = $(By.xpath("//*[@class = 'anticon anticon-solution lk-mainframe-nav-accountselect-personicon']/preceding-sibling::div/div[1]"));
@@ -30,7 +30,7 @@ public class БоковаяПанель {
     private SelenideElement DescriptionOfActiveAccount = $(By.xpath("//*[@class = 'anticon anticon-solution lk-mainframe-nav-accountselect-personicon']/preceding-sibling::div/div[2]"));
 
     @NameTag(name = "Коллекция подключенных счетов")
-    private ElementsCollection collectionConnectedAccounts = $$(By.xpath("//*[@class = 'lk-mainframe-accountlist active']/button"));
+    private String collectionConnectedAccounts = "//div[contains(@class, 'lk-mainframe-accountlist')]//button//div[contains(text(),'%s')]/../../../..";
 
     @NameTag(name = "Кнопка {Добавить лицевой счет}")
     private SelenideElement buttonAddPersonalAccount = $(By.xpath("//button[@class = 'abrr-ui-button base lk-mainframe-nav-accountselect-add']"));
@@ -53,6 +53,8 @@ public class БоковаяПанель {
     @NameTag(name = "Коллекция пунктов меню")
     private ElementsCollection collectionMenuElements = $$(By.xpath("//div[contains(@class,'lk-mainframe-nav-menu-item-label')]"));
 
+
+
     public boolean sideBarIsVisible() {
         boolean sideBarISVisible = false;
         SelenideElement elementMenu = collectionMenuElements.get((int) (Math.random() * collectionMenuElements.size()));
@@ -61,6 +63,10 @@ public class БоковаяПанель {
         } else {
             return sideBarISVisible;
         }
+    }
+
+    public SelenideElement findNeededAcc(String numAcc) {
+        return $(By.xpath(String.format(collectionConnectedAccounts,numAcc)));
     }
 
 }

@@ -20,6 +20,9 @@ public class ОбщиеЭлементы {
     @NameTag(name = "Кнопка продолжить")
     private SelenideElement btnContinue = $(By.xpath("//button[@class='abrr-ui-button primary lk-buddyview-buddy-button']"));
 
+    @NameTag(name = "Кнопка {X}")
+    private SelenideElement btnX = $(By.xpath("//i[contains(@class,'anticon-close')]/.."));
+
     @NameTag(name = "Поле введите номер счета")
     private SelenideElement fieldNumberAcc = $(By.xpath("//input[@type = 'text']"));
 

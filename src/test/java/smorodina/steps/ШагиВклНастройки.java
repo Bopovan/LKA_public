@@ -21,6 +21,11 @@ public class ШагиВклНастройки {
         вклНастройки.checkAccInTable(numberAcc, true);
     }
 
+    @When("на вклНастройки в таблице проверить количество подключенных счетов, должно быть: {int}")
+    public void checkCountAccInTable(int numberAcc) {
+        вклНастройки.checkCountAccInTable(numberAcc);
+    }
+
     @When("на вклНастройки в таблице проверить, что не содержится счёт: {string}")
     public void checkNotContainsInTable(String numberAcc) {
         вклНастройки.checkAccInTable(numberAcc, false);
@@ -36,10 +41,20 @@ public class ШагиВклНастройки {
         вклНастройки.cardIsNotDisplayed(num);
     }
 
+
     @When("на вклНастройки удалить привязанную карту с последними 4 цифрами:{string}")
     public void deleteCard(String num) {
         вклНастройки.destroyCard(num);
     }
 
+    @When("на вклНастройки отключить Счет: {string}")
+    public void deleteAcc(String numAcc) {
+        вклНастройки.destroyAcc(numAcc);
+    }
 
+
+    @When("на вклНастройки проверить, что лицевой счет: {string} - НЕ отображается")
+    public void checkAccIsNotDiplayed(String numAcc) {
+        вклНастройки.cardIsNotDisplayed(numAcc);
+    }
 }

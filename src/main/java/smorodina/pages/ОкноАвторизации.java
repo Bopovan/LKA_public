@@ -17,7 +17,7 @@ public class ОкноАвторизации {
 
 
     private Configuration getConfiguration() {
-        Configuration.browser = "firefox"; //ie //chrome //edje //opera //firefox
+        Configuration.browser = "chrome"; //ie //chrome //edje //opera //firefox
         Configuration.startMaximized = true;
 //        Configuration.reopenBrowserOnFail = true;
         Configuration.holdBrowserOpen = false;
@@ -30,11 +30,11 @@ public class ОкноАвторизации {
     private final SelenideElement startWindow = $(By.id("View3D"));
 
     @NameTag(name = "Поле_логин")
-    private final SelenideElement
+    public final SelenideElement
             loginField = $(By.xpath("//input[@placeholder = 'Логин']"));
 
     @NameTag(name = "Поле_пароль")
-    private final SelenideElement
+    public final SelenideElement
             passwordField = $(By.xpath("//input[@placeholder = 'Пароль']"));
 
     @NameTag(name = "Кнопка_входа_в_личный_кабинет")

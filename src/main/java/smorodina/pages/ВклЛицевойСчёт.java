@@ -1,8 +1,6 @@
 package smorodina.pages;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +16,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class ВклЛицевойСчёт {
+    МОкноОплатаУслуг page = new МОкноОплатаУслуг();
 
     private Logger log = LogManager.getLogger(ВклЛицевойСчёт.class);
 
@@ -72,7 +71,7 @@ public class ВклЛицевойСчёт {
     //==============================Вкладка платежи==============================
 
     @NameTag(name = "Кнопка {Детализация}")
-    private SelenideElement btnDetails = $(By.xpath("//*[contains(text(),'Детализаци')]/.."));
+    private ElementsCollection btnDetails = $$(By.xpath("//*[contains(text(),'Детализаци')]/.."));
 
 //    @NameTag(name = "Кнопка {Детализация}")
 //    private SelenideElement btnDetails = $(By.xpath("//*[contains(text(),'Детализаци')]/.."));
@@ -87,12 +86,22 @@ public class ВклЛицевойСчёт {
 
     public String btnDetailForXpath = "//div[contains(text(),'%s')]/..//*[contains(text(),'%s')]//ancestor::div[contains(@class,'lk-payments-row')]//button";
 
-    
-    public void clickDetail(String rub) {
+
+    public void clickDetail() {
         Date date = new Date();
-        String currentDate = String.format("%1$s%2$td %2$tB %2$tY","", date);
-        System.out.println(currentDate);
-        SelenideElement btnDetail = $(By.xpath(String.format(btnDetailForXpath,currentDate,rub))).shouldBe(Condition.visible);
+        String currentDate = String.format("%1$s%2$td %2$tB %2$tY", "", date);
+        String rub = page.getValueInAllSumFields();
+        System.out.println(rub);
+        SelenideElement btnDetail = $(By.xpath(String.format(btnDetailForXpath, currentDate, rub)));
+        int count = 0;
+        while (!btnDetail.is(Condition.visible) && count < 5) {
+            Selenide.refresh();
+            btnDetails.shouldHave(CollectionCondition.sizeGreaterThan(0));
+            count++;
+        }
+//                .waitUntil(Condition.visible,10000)
+//                .shouldBe(Condition.visible);
+
         btnDetail.click();
     }
 

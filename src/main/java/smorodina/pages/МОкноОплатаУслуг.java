@@ -2,6 +2,7 @@ package smorodina.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +17,16 @@ import static com.codeborne.selenide.Selenide.$$;
 public class МОкноОплатаУслуг {
 
     private Logger log = LogManager.getLogger(МОкноОплатаУслуг.class);
+
+    private String valueInAllSumFields;
+
+    public String getValueInAllSumFields() {
+        return valueInAllSumFields;
+    }
+
+    public void setValueInAllSumFields(int valueInAllSumFields) {
+        this.valueInAllSumFields = Integer.toString(valueInAllSumFields);
+    }
 
      /*
     Модальное окно оплаты услуг
@@ -76,9 +87,6 @@ public class МОкноОплатаУслуг {
     private SelenideElement btnClose = $(By.xpath("//button[contains(@class,'abrr-ui-modal-final-button')]"));
 
 
-
-
-
     public void cleanAllSummFields() {
         for (SelenideElement field : fieldsSumm) {
             log.trace("\n\n_____________________________\n\nНаходим все поля {Суммы}\n\n______________________________");
@@ -94,13 +102,19 @@ public class МОкноОплатаУслуг {
             }
             log.trace("\n\n_____________________________\n\nПрописываем пустые значения в каждом поле\n\n______________________________");
             field.shouldBe(Condition.visible).setValue("");
-
         }
     }
 
     public void setFieldSum(int numberOfElement, String sum) {
         SelenideElement elementFieldSum = $(By.xpath(String.format(fieldSum, numberOfElement)));
         elementFieldSum.shouldBe(Condition.visible).setValue(sum);
+    }
+
+    public void setAllFieldsSumm(String sum) {
+        for (SelenideElement fieldSum : fieldsSumm) {
+            fieldSum.setValue(sum);
+        }
+        setValueInAllSumFields(Integer.parseInt(sum) * fieldsSumm.size());
     }
 
 

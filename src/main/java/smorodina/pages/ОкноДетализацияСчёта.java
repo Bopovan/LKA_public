@@ -23,11 +23,18 @@ public class ОкноДетализацияСчёта {
     private SelenideElement fieldMRG = $(By.xpath("//div[@class = 'lk-paymentdocument-header'][1]"));
 
     @NameTag(name = "поле с номером счёта для оплаты")
-    private String fieldNumAcc = "//div[contains(@class,'lk-paymentdocument-total')]//..//div[text() = '5300309475']";
+    private String fieldNumAcc = "//div[contains(@class,'lk-paymentdocument-total')]//..//div[text() = '%s']";
+
+    @NameTag(name = "поле с номером транзакции")
+    private SelenideElement fieldTransA = $(By.xpath("//div[text()='Номер транзакции:']/following-sibling::div"));
 
 
-    public void checkAreIsDisplay(int номерЛС) {
+    public void checkAreIsDisplay(String номерЛС) {
         SelenideElement element = $(By.xpath(String.format(fieldNumAcc,номерЛС))).shouldBe(Condition.visible);
+    }
+
+    public String checkTransNum(){
+        return fieldTransA.shouldBe(Condition.visible).getText();
     }
 
 

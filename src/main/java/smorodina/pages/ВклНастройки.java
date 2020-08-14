@@ -1,6 +1,7 @@
 package smorodina.pages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.conditions.Visible;
 import org.apache.logging.log4j.LogManager;
@@ -9,14 +10,28 @@ import org.openqa.selenium.By;
 import smorodina.Utils.NameTag;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 public class ВклНастройки {
     private ОбщиеПроверки commonChecks;
     private Logger log = LogManager.getLogger(МОкноОплатаУслуг.class);
+/*
+Вложенная вкладка ЛИЦЕВЫЕ СЧЕТА
+ */
+
+    @NameTag(name = "Кнопка Подключить Лицевой Счет")
+    private SelenideElement btnAddAcc = $(By.xpath("//*[contains(text(), 'Подключить лицевой счет')]/.."));
 
     @NameTag(name = "Таблица с подключёнными счетами")
     private SelenideElement tableWithAcc = $(By.xpath("//div[@class = 'ant-table-body']"));
 
+    @NameTag(name = "Коллекция строк в таблице")
+    private String checkAccInTableIsDisplay = "//tr[contains(.,'%s')]";
+
+
+    /*
+    Вложенная вкладка КАРТЫ
+ */
     @NameTag(name = "Вкладка {Карты}")
     private SelenideElement tabCards = $(By.xpath("//*[contains(text(),'Карты')]"));
 
@@ -24,20 +39,12 @@ public class ВклНастройки {
     private SelenideElement btnAddCards = $(By.xpath("//*[contains(@class ,'abrr-ui-plastic-card-addcard')]"));
 
 
-    @NameTag(name = "Кнопка Подключить Лицевой счёт")
-    private SelenideElement btnAddAcc = $(By.xpath("//button[@class = 'abrr-ui-button primary uppercase']"));
-
-    @NameTag(name = "Коллекция строк в таблице")
-//    private SelenideElement collectionAccInTable = $(By.xpath("//table/tbody"));
-    private String checkAccInTableIsDisplay = "//tr[contains(.,'%s')]";
-
-
     @NameTag(name = "Кнопка Переименовать")
     private String btnRename = "//tr[contains(.,'%s')]/td[3]//*[@class = 'abrr-ui-button primary ghost']";
 
     @NameTag(name = "Кнопка отключить")
-    private String btnOff = "//tr[contains(.,'%s')]/td[3]//*[@class = 'abrr-ui-button red ghost']";
-    //-------------------------------------------------------------Всплывающее окно согласия на отключение---------------------------------
+    private String btnOff = "//td//div[contains(text(),'%s')]/../../../../td/div//button[contains(@class,'red')]";
+
     @NameTag(name = "Всплывающее окно согласия на отключение")
     private String popUpDisAcc = "//div[@class = 'ant-popover-inner-content']/div/div[contains(text(),'Отключить лицевой счет %s?')]";
 
@@ -46,8 +53,7 @@ public class ВклНастройки {
 
     @NameTag(name = "Всплывающее окно/ Кнопка отмена")
     private SelenideElement popUpBtnCancel = $(By.xpath("//button[@class = 'abrr-ui-button primary ghost smallsize abrr-ui-popconfirm-leftbutton']"));
-    //-------------------------------------------------------------------------------------------------------------------------------------
-    //--------------------------------------------------------------Всплывающее окно Переименования----------------------------------------
+
     @NameTag(name = "Всплывающее окно согласия на отключение")
     private SelenideElement popUpRenameAcc = $(By.xpath("//button[@class = 'abrr-ui-button primary uppercase fullwidth']/../."));
 
@@ -63,9 +69,6 @@ public class ВклНастройки {
     @NameTag(name = "Всплывающее окно/ Кнопка {Х}")
     private SelenideElement popUpBtnClose = $(By.xpath("//button[@class = 'abrr-ui-modal-closeButton']")); //проверить, эелемент общий? на всех вспылвающих окнах?
 
-
-
-
     @NameTag(name = "Имя карты в системе")
     private SelenideElement cardName = $(By.xpath("//div[contains(@class,'abrr-ui-title-title small')]"));
 
@@ -78,14 +81,16 @@ public class ВклНастройки {
     @NameTag(name = "Кнопка Удалить карту")
     private SelenideElement btnDeleteCard = $(By.xpath("//*[contains(text(),'Удалить карту')]/.."));
 
-
     @NameTag(name = "коллекция пркреплённых банковских карт")
     public String addCards = "//div[contains(text(),'%s')]/..";
 
+    @NameTag(name = "коллекция пркреплённых счетов")
+    public ElementsCollection addAC = $$(By.xpath("//tbody/tr"));
 
 
-
-
+    public void checkCountAccInTable(int count){
+        addAC.shouldHaveSize(count);
+    }
 
 
     public void findNeedCard(String lastFourNum) {
@@ -97,6 +102,12 @@ public class ВклНастройки {
     public void cardIsNotDisplayed(String lastFourNum) {
         log.trace("____________________________________\n\n пробуем найти карту, которой не должно быть! с последними цифрами: {}", lastFourNum);
         SelenideElement element = $(By.xpath(String.format(addCards, lastFourNum)));
+        element.shouldBe(Condition.not(Condition.visible));
+    }
+
+    public void accIsNotDisplayed(String accNum) {
+        log.trace("____________________________________\n\n пробуем найти счет, которой не должно быть! с цифрами: {}", accNum);
+        SelenideElement element = $(By.xpath(String.format(checkAccInTableIsDisplay, accNum)));
         element.shouldBe(Condition.not(Condition.visible));
     }
 
@@ -153,9 +164,17 @@ public class ВклНастройки {
     }
 
     public void destroyCard(String numCard) {
-        SelenideElement card = $(By.xpath(String.format(addCards,numCard))).shouldBe(Condition.visible);
+        SelenideElement card = $(By.xpath(String.format(addCards, numCard))).shouldBe(Condition.visible);
         card.click();
         btnDeleteCard.shouldBe(Condition.visible).click();
+    }
+
+    public void destroyAcc(String fullNumAcc) {
+        SelenideElement card = $(By.xpath(String.format(btnOff, fullNumAcc))).shouldBe(Condition.visible);
+        card.click();
+        popUpBtnCancel.shouldBe(Condition.visible).click();
+        card.click();
+        popUpBtnOff.shouldBe(Condition.visible).click();
     }
 
 }
