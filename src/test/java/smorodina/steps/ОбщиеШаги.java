@@ -43,8 +43,10 @@ public class ОбщиеШаги {
         getElement(page, element).waitUntil(Condition.visible, implicityWait).selectOption(value);
     }
 
-
-
+    @When("на странице {string} проверить, что элемент {string} - недоступен")
+    public void checkDisabled(String page, String element) throws Exception {
+        getElement(page, element).shouldHave(Condition.disabled);
+    }
 
     @When("на {string} в поле {string} ввести текст {string}")
     public void enterText(String page, String field, String value) throws Exception {

@@ -5,6 +5,10 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import smorodina.Utils.NameTag;
 
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static com.codeborne.selenide.Selenide.$;
 
 public class ОкноЭквайринга {
@@ -18,7 +22,6 @@ public class ОкноЭквайринга {
     public void setTransactionNumber(String transactionNumber) {
         this.transactionNumber = transactionNumber;
     }
-
 
 
     /*
@@ -63,11 +66,11 @@ public class ОкноЭквайринга {
    Страница ошибки регистрации карты
     */
 
-     @NameTag(name = "ошибка регистрации карты")
-     private SelenideElement registrError = $(By.xpath("//*[contains(text(),'Карта не зарегистрирована')]"));
+    @NameTag(name = "ошибка регистрации карты")
+    private SelenideElement registrError = $(By.xpath("//*[contains(text(),'Карта не зарегистрирована')]"));
 
-     @NameTag(name = "причина ошибки регистрации карты")
-     private SelenideElement explainErrorRegCard = $(By.xpath("//*[contains(text(),'Причина:Карта клиента имеет неправильный статус')]"));
+    @NameTag(name = "причина ошибки регистрации карты")
+    private SelenideElement explainErrorRegCard = $(By.xpath("//*[contains(text(),'Причина:Карта клиента имеет неправильный статус')]"));
 
      /*
     Страница оплаты
@@ -97,21 +100,10 @@ public class ОкноЭквайринга {
     @NameTag(name = "текст Номер транзакции")
     private SelenideElement transactionNumberOnCheck = $(By.xpath("//td[text() = 'Номер чека']/following-sibling::td"));
 
+    @NameTag(name = "текст Сумма")
+    private SelenideElement sumNumberOnCheck = $(By.xpath("//td[text() = 'Сумма']/following-sibling::td"));
 
-
-
-
-    public void saveTransNum(){
-       setTransactionNumber(transactionNumberOnCheck.shouldBe(Condition.visible).getText());
+    public void saveTransNum() {
+        setTransactionNumber(transactionNumberOnCheck.shouldBe(Condition.visible).getText());
     }
-
-
-
-
-
-
-//    @NameTag(name = "надпись Регистрация карты")
-//    private SelenideElement nameModalWindow = $(By.xpath("//span[contains(text(),'Регистрация карты')]"));
-
-
 }

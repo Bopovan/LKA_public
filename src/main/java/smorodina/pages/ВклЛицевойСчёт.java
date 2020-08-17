@@ -16,7 +16,9 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class ВклЛицевойСчёт {
+
     МОкноОплатаУслуг page = new МОкноОплатаУслуг();
+    ОкноЭквайринга page2;
 
     private Logger log = LogManager.getLogger(ВклЛицевойСчёт.class);
 
@@ -27,7 +29,9 @@ public class ВклЛицевойСчёт {
     @NameTag(name = "Страница Лицевой счёт")
     private final SelenideElement firstWindow = $(By.xpath("//div[@class = 'lk-page-accountview-widget']/../.."));
 
-    //==============================Элементы карточки УСЛУГИ==============================
+    /*
+    Элементы карточки УСЛУГИ
+     */
 
     @NameTag(name = "Окно Услуги")
     private SelenideElement tabPersonalAccountWindowServices = $(By.xpath("//div[@class = 'lk-page-accountview-widget'][contains(.,'Услуги')]"));
@@ -44,7 +48,9 @@ public class ВклЛицевойСчёт {
     @NameTag(name = "Коллекция \"Состояний по услугам\"")
     private ElementsCollection collectionServiceStatus = $$(By.xpath("//*[@class = 'lk-page-accountview-widget-payment-subtitle']"));
 
-    //==============================Элементы карточки ПРИБОРЫ УЧЕТА==============================
+    /*
+    Элементы карточки ПРИБОРЫ УЧЕТА
+     */
 
     @NameTag(name = "Окно Приборы учета")
     private SelenideElement windowDevices = $(By.xpath("//div[@class = 'lk-page-accountview-widget'][contains(.,'Приборы учета')]"));
@@ -62,16 +68,21 @@ public class ВклЛицевойСчёт {
     private SelenideElement fieldAverageMonthlyConsumption = $(By.xpath("//div[contains(text(),'Среднемесячный расход')]/following-sibling::div"));
 
     @NameTag(name = "Текущие показания")
-    private SelenideElement fieldCurrentReadings = $(By.xpath("//div[@class='lk-page-accountview-widget-counter-value']"));
+    private SelenideElement fieldCurrentReadings = $(By.xpath("//div[@class = 'lk-page-accountview-widget-counter-value']"));
 
     @NameTag(name = "Номер счетчика")
     private SelenideElement fieldCounterNumber = $(By.xpath("//div[@class='lk-page-accountview-widget-counter-value']/following-sibling::div[1]"));
 
+    @NameTag(name = "Значение в истории")
+    public String checkHistoryParam = "//div[contains(@class,'state')]/preceding-sibling::div[contains(text(),'%s')]";
 
-    //==============================Вкладка платежи==============================
+
+    /*
+    Вкладка платежи
+     */
 
     @NameTag(name = "Кнопка {Детализация}")
-    private ElementsCollection btnDetails = $$(By.xpath("//*[contains(text(),'Детализаци')]/.."));
+    public ElementsCollection btnDetails = $$(By.xpath("//*[contains(text(),'Детализаци')]/.."));
 
 //    @NameTag(name = "Кнопка {Детализация}")
 //    private SelenideElement btnDetails = $(By.xpath("//*[contains(text(),'Детализаци')]/.."));

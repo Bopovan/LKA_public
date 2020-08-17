@@ -28,6 +28,9 @@ public class ОкноДетализацияСчёта {
     @NameTag(name = "поле с номером транзакции")
     private SelenideElement fieldTransA = $(By.xpath("//div[text()='Номер транзакции:']/following-sibling::div"));
 
+    @NameTag(name = "текст Сумма")
+    public String sumNumberOnCheck = "//div[contains(text(),'Сумма')]/following-sibling::div[contains(text(),'%s')]";
+
 
     public void checkAreIsDisplay(String номерЛС) {
         SelenideElement element = $(By.xpath(String.format(fieldNumAcc,номерЛС))).shouldBe(Condition.visible);

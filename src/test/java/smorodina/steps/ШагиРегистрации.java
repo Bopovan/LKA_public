@@ -117,7 +117,7 @@ public class ШагиРегистрации {
         page.fieldRepeatPassword.shouldBe(Condition.visible).setValue(getRANDOMPASSWORD());
     }
 
-    @When("проверить, что ошибка с текстом {string}")
+    @When("проверить, что ошибка с текстом {string} отображается")
     public void checkErrorIsDisplayed(String textError) {
         page.isDisplayedErrorWithText(textError).shouldBe(Condition.visible);
     }

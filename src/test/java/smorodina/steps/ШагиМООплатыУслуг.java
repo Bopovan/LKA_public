@@ -9,6 +9,8 @@ import smorodina.pages.ОкноАвторизации;
 import smorodina.pages.ОкноДетализацияСчёта;
 import smorodina.pages.ОкноЭквайринга;
 
+import java.util.regex.Pattern;
+
 public class ШагиМООплатыУслуг {
     private final Logger log = LogManager.getLogger(ШагиМООплатыУслуг.class);
     МОкноОплатаУслуг page = new МОкноОплатаУслуг();
@@ -28,12 +30,6 @@ public class ШагиМООплатыУслуг {
     @When("запомнить номер счёта в переменную transactionNumber")
     public void saveTrNum() {
         page2.saveTransNum();
-    }
-
-    @When("проверить, что номер транзакции совпадает с последним платежом")
-    public void checkTrans() {
-        log.trace("\n\nПробуем сравнить ожидаемое значение = {}, с действительным = {}\n\n",page3.checkTransNum(), page2.getTransactionNumber());
-        Assert.assertEquals(page3.checkTransNum(), page2.getTransactionNumber());
     }
 
     @When("во все поля сумм ввести значение = {string}")

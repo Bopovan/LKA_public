@@ -20,6 +20,8 @@ public class МОкноОплатаУслуг {
 
     private String valueInAllSumFields;
 
+
+
     public String getValueInAllSumFields() {
         return valueInAllSumFields;
     }
@@ -36,13 +38,10 @@ public class МОкноОплатаУслуг {
     private SelenideElement windowPayServices = $(By.xpath("//div[@class = 'abrr-ui-title-title small'][contains(text(),'Оплата услуг')]/../../../../.."));
 
     @NameTag(name = "Кнопка {К оплате}")
-    private SelenideElement btnPay = $(By.xpath("//button[@class = 'abrr-ui-button green uppercase'][contains(.,'К оплате')]"));
+    private SelenideElement btnPay = $(By.xpath("//button[contains(@class, 'abrr-ui-button')][contains(.,'К оплате')]"));
 
     @NameTag(name = "Кнопка {развернуть} Передача показаний")
     private SelenideElement btnSendOfTestimony = $(By.xpath("//button[@class = 'abrr-ui-button circle base']"));
-
-    @NameTag(name = "Кнопка {Отмена}")
-    private SelenideElement btnCancel = $(By.xpath("//button[@class = 'abrr-ui-button primary ghost uppercase'][contains(.,'Отмена')]"));
 
     @NameTag(name = "Раскрывающийся список банковских карт")
     private SelenideElement bankCardList = $(By.xpath("//button[@class = 'abrr-ui-button base abrr-ui-plasticcardselect']"));
@@ -69,8 +68,17 @@ public class МОкноОплатаУслуг {
     @NameTag(name = "Поле суммы платежа у Поля ПЕНЯ")
     private SelenideElement fieldSumm4 = $(By.xpath("//div[contains(text(),'ПЕНЯ')]//ancestor::*[contains(@class, 'lk-component-FormServices-item odd')]//*[@class = 'abrr-ui-textfield-wrapper']/input"));
 
+    @NameTag(name = "Поле суммы платежа у Поля ГАЗ")
+    private SelenideElement fieldSumm5 = $(By.xpath("//div[contains(text(),'ГАЗ')]//ancestor::*[contains(@class, 'lk-component-FormServices-item odd')]//*[@class = 'abrr-ui-textfield-wrapper']/input"));
+
+    @NameTag(name = "Услуга ГАЗ")
+    private SelenideElement fieldGas = $(By.xpath("//div[contains(text(),'ГАЗ')]//ancestor::*[contains(@class, 'lk-component-FormServices-item odd')]//*[contains(text(),'ГАЗ')]"));
+
     @NameTag(name = "Xpath для ввода суммы в поле выбрав его по порядковому номеру")
     private String fieldSum = "//div[@class = 'lk-component-FormServices-container']/descendant::input[@type = 'text'][%d]";
+
+    @NameTag(name = "ошибка с текстом Некорректная сумма")
+    private SelenideElement textErrorSumMin = $(By.xpath("//div[contains(text(),'Некорректная сумма')]/following-sibling::div[contains(text(),'Сумма не может быть меньше 10 руб.')]"));
 
 
     /*
@@ -117,11 +125,9 @@ public class МОкноОплатаУслуг {
         setValueInAllSumFields(Integer.parseInt(sum) * fieldsSumm.size());
     }
 
-
     public void clickOnCard(int cardNum) {
         SelenideElement card = $(By.xpath(String.format(listOfCard, cardNum)));
         card.shouldBe(Condition.visible).click();
     }
-
 
 }
