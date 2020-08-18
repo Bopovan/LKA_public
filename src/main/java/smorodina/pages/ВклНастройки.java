@@ -13,14 +13,21 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class ВклНастройки {
+
     private ОбщиеПроверки commonChecks;
     private Logger log = LogManager.getLogger(МОкноОплатаУслуг.class);
-/*
-Вложенная вкладка ЛИЦЕВЫЕ СЧЕТА
- */
+
+    /*
+    Вложенная вкладка ЛИЦЕВЫЕ СЧЕТА
+    */
+
+
 
     @NameTag(name = "Кнопка Подключить Лицевой Счет")
     private SelenideElement btnAddAcc = $(By.xpath("//*[contains(text(), 'Подключить лицевой счет')]/.."));
+
+    @NameTag(name = "Кнопка Изменить логин")
+    private SelenideElement btnChangeLogin2 = $(By.xpath("//div[contains(text(),'Изменить логин')]/.."));
 
     @NameTag(name = "Таблица с подключёнными счетами")
     private SelenideElement tableWithAcc = $(By.xpath("//div[@class = 'ant-table-body']"));
@@ -28,12 +35,37 @@ public class ВклНастройки {
     @NameTag(name = "Коллекция строк в таблице")
     private String checkAccInTableIsDisplay = "//tr[contains(.,'%s')]";
 
+    /*
+    Вложенная вкладка ПРОФИЛЬ
+    */
+    @NameTag(name = "вкладка Профиль")
+    private SelenideElement tabProfile = $(By.xpath("//div[contains(text(),'Профиль')]/.."));
+
+    @NameTag(name = "Кнопка  {сменить Логин}")
+    private SelenideElement btnChangeLogin = $(By.xpath("//*[contains(text(),'Сменить логин')]/.."));
+
+    @NameTag(name = "Поле пароль")
+    private SelenideElement fieldPassword = $(By.xpath("//*[contains(text(),'Пароль')]//following-sibling::div/input"));
+
+    @NameTag(name = "Поле Телефон или эл. почта")
+    private SelenideElement fieldEmail = $(By.xpath("//*[contains(text(),'Телефон')]//following-sibling::div/input"));
+
+    public void setNewEmail(String newEmail, String oldPassword){
+        fieldPassword.shouldBe(Condition.visible).setValue(oldPassword);
+        fieldEmail.shouldBe(Condition.visible).setValue(newEmail);
+    }
+
+    @NameTag(name = "Кнопка  {сменить Пароль}")
+    private SelenideElement btnChangePassword = $(By.xpath("//*[contains(text(),'Сменить пароль')]/.."));
 
     /*
     Вложенная вкладка КАРТЫ
- */
+    */
+
     @NameTag(name = "Вкладка {Карты}")
     private SelenideElement tabCards = $(By.xpath("//*[contains(text(),'Карты')]"));
+
+
 
     @NameTag(name = "Кнопка-иконка добавить карту")
     private SelenideElement btnAddCards = $(By.xpath("//*[contains(@class ,'abrr-ui-plastic-card-addcard')]"));

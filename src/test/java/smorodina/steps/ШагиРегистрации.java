@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.passay.PasswordGenerator;
 import smorodina.ConnectionSQL;
+import smorodina.pages.ВклНастройки;
 import smorodina.pages.МОкноКодПодтверждения;
 import smorodina.pages.ОкноАвторизации;
 import smorodina.pages.ОкноРегистрации;
@@ -31,6 +32,7 @@ public class ШагиРегистрации {
     ОкноРегистрации page = new ОкноРегистрации();
     МОкноКодПодтверждения page2 = new МОкноКодПодтверждения();
     ОкноАвторизации page3 = new ОкноАвторизации();
+    ВклНастройки page4 = new ВклНастройки();
 
     private String RANDOMMAIL = "";
     private String RANDOMPASSWORD = "";
@@ -40,7 +42,7 @@ public class ШагиРегистрации {
         return RANDOMPASSWORD;
     }
 
-    @When("сгенерировать новый пароль от 6 до 20 символов") // старые пароли удаляются
+
     public void setRANDOMPASSWORD() {
         PasswordGenerator psw = new PasswordGenerator();
         List<String> pswListChars = new LinkedList<>();
@@ -55,15 +57,14 @@ public class ШагиРегистрации {
         return RANDOMMAIL;
     }
 
-    @Then("сгенерировать тестовую почту") // старый почтовый ящик затирается
+
     public void setRANDOMMAIL() {
         String randomMailBody = "lka_gaz_mail"; // тело почтового ящика
         String randomMailEnd = "@bk.ru"; // домен зарегистрированный на mail.ru
-        String randomPartOfMail = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_HH_mm"));   // уникальная часть почтового тега, созданная из даты+время - для удобного поиска в ящике
+        String randomPartOfMail = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_HH_mm_ss"));   // уникальная часть почтового тега, созданная из даты+время - для удобного поиска в ящике
 //        sout(randomMailBody + "+" + randomPartOfMail + randomMailEnd);
         this.RANDOMMAIL = randomMailBody + "+" + randomPartOfMail + randomMailEnd; // возвращаем склееный рандомный ящик с уникальным телом
     }
-
 
     public String getLastMessageMail() {
         String value = "";
@@ -104,7 +105,6 @@ public class ШагиРегистрации {
         return value;
     }
 
-    @When("создать тестового пользователя и заполнить поля Регистрации валидными данными")
     public void preSetRegistration() {
         setRANDOMMAIL();
         Assert.assertNotNull(getRANDOMMAIL());
@@ -117,29 +117,61 @@ public class ШагиРегистрации {
         page.fieldRepeatPassword.shouldBe(Condition.visible).setValue(getRANDOMPASSWORD());
     }
 
-    @When("проверить, что ошибка с текстом {string} отображается")
-    public void checkErrorIsDisplayed(String textError) {
-        page.isDisplayedErrorWithText(textError).shouldBe(Condition.visible);
-    }
-
-    @When("в поле Код подтверждения ввести код из письма")
     public void setAccCode() throws SQLException, ClassNotFoundException {
         String sqlValue = sql.getCodeActivation(getRANDOMMAIL());
         String emailValue = getLastMessageMail();
         int count = 0;
-        while (!sqlValue.equals(emailValue) && count < 5) {
-            log.trace("Ожидаем 5 секунд и проверяем равны ли показания {} и {} где count = {}", sqlValue, emailValue,count);
+        while (!sqlValue.equals(emailValue) && count < 10) {
+            log.trace("Ожидаем 5 секунд и проверяем равны ли показания {} и {} где count = {}", sqlValue, emailValue, count);
             Selenide.sleep(5000);
             count++;
         }
         page2.fieldConfirmationCode.shouldBe(Condition.visible).setValue(emailValue);
     }
 
+    public void getLastCode() {
+        page2.fieldConfirmationCode.shouldBe(Condition.visible).setValue(getLastMessageMail());
+    }
+
+    @When("на странице смены логина заполнить поля сгенерированным новым почтовым ящиком и старым паролем")
+    public void resetEmail() {
+        page4.setNewEmail(getRANDOMMAIL(), getRANDOMPASSWORD());
+    }
+
     @When("повторно авторизоваться под сгенерированным пользователем")
-    public void reAut(){
+    public void reAut() {
         page3.loginField.shouldBe(Condition.visible).setValue(getRANDOMMAIL());
         page3.passwordField.shouldBe(Condition.visible).setValue(getRANDOMPASSWORD());
     }
 
+    @When("сгенерировать новый пароль от 6 до 20 символов") // старые пароли удаляются
+    public void genPass() {
+        setRANDOMPASSWORD();
+    }
 
+    @When("в поле Код подтверждения ввести код из письма")
+    public void typeCode() throws SQLException, ClassNotFoundException {
+        setAccCode();
+    }
+
+    @When("в поле Код ввести последнее значение из письма")
+    public void typeLASTCode() {
+        getLastCode();
+    }
+
+    @When("проверить, что ошибка с текстом {string} отображается")
+    public void checkErrorIsDisplayed(String textError) {
+        page.isDisplayedErrorWithText(textError).shouldBe(Condition.visible);
+    }
+
+    @When("создать тестового пользователя и заполнить поля Регистрации валидными данными")
+    public void genNewUser() {
+        preSetRegistration();
+    }
+
+
+    @Then("сгенерировать тестовую почту")// старый почтовый ящик затирается
+    public void genEmail() {
+        setRANDOMMAIL();
+    }
 }

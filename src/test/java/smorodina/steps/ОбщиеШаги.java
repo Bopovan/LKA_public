@@ -9,6 +9,7 @@ import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -20,12 +21,13 @@ import smorodina.pages.ОкноАвторизации;
 
 import java.security.Key;
 
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static smorodina.Utils.PageElement.*;
 
 public class ОбщиеШаги {
     //________________________________________________________________________________________________
-    public int implicityWait = 5000; // - ожидание отображения элемента или срабатывание кнопки
+    public int implicityWait = 10000; // - ожидание отображения элемента или срабатывание кнопки
     //________________________________________________________________________________________________
 
 
@@ -65,6 +67,14 @@ public class ОбщиеШаги {
         getElement(page, window).waitUntil(Condition.visible, implicityWait);
     }
 
+    @When("проверить, что элемент с текстом {string} отображается")
+    public void checkWindowIsDisplayed( String text) throws Exception {
+        log.debug("\n\n_______________________\n\nНа странице  проверяем, что элемент с текстом {} отображается\n\n_______________\n\n", text);
+        String xpath = "//div[contains(text(),'%s')]";
+        SelenideElement element = $(By.xpath(String.format(xpath,text)));
+        element.waitUntil(Condition.visible, implicityWait);
+    }
+
     @When("на {string} установить фокус на элемент {string}")
     public void setFocusOn(String page, String window) throws Exception {
         log.debug("\n\n_______________________\n\nНа странице {} устанавливаем фокус на элемент {}\n\n _______________\n\n", page, window);
@@ -88,6 +98,7 @@ public class ОбщиеШаги {
     public void wait(int time) {
         Selenide.sleep(time * 1000);
     }
+
 
     @Then("переключиться на модальное окно под номером {int}")
     public void switchToNewWindow(int numWindow) {
