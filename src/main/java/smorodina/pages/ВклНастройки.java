@@ -17,6 +17,7 @@ public class ВклНастройки {
     private ОбщиеПроверки commonChecks;
     private Logger log = LogManager.getLogger(МОкноОплатаУслуг.class);
 
+
     /*
     Вложенная вкладка ЛИЦЕВЫЕ СЧЕТА
     */
@@ -57,6 +58,24 @@ public class ВклНастройки {
 
     @NameTag(name = "Кнопка  {сменить Пароль}")
     private SelenideElement btnChangePassword = $(By.xpath("//*[contains(text(),'Сменить пароль')]/.."));
+
+    @NameTag(name = "Поле Введите старый пароль")
+    private SelenideElement fieldTypeOldPassword = $(By.xpath("//*[text() = 'Введите старый пароль']/following-sibling::div/input"));
+
+    @NameTag(name = "Поле Введите новый пароль")
+    private SelenideElement fieldTypeNewPassword = $(By.xpath("//*[text() = 'Введите новый пароль']/following-sibling::div/input"));
+
+    @NameTag(name = "Поле Введите новый пароль еще раз")
+    private SelenideElement fieldTypeNewPasswordAgain = $(By.xpath("//*[text() = 'Введите новый пароль еще раз']/following-sibling::div/input"));
+
+    public void typeOldPassword(String oldPassword){
+        fieldTypeOldPassword.shouldBe(Condition.visible).setValue(oldPassword);
+    }
+
+    public void typeNewPassword(String newPassword){
+        fieldTypeNewPassword.shouldBe(Condition.visible).setValue(newPassword);
+        fieldTypeNewPasswordAgain.shouldBe(Condition.visible).setValue(newPassword);
+    }
 
     /*
     Вложенная вкладка КАРТЫ

@@ -26,11 +26,17 @@ public class ОбщиеЭлементы {
     @NameTag(name = "Поле введите номер счета")
     private SelenideElement fieldNumberAcc = $(By.xpath("//input[@type = 'text']"));
 
+//    @NameTag(name = "Кнопка {Отмена}")
+//    private SelenideElement btnCancel = $(By.xpath("//button[@class = 'abrr-ui-button primary ghost uppercase'][contains(.,'Отмена')]"));
+
     @NameTag(name = "Кнопка {Отмена}")
-    private SelenideElement btnCancel = $(By.xpath("//button[@class = 'abrr-ui-button primary ghost uppercase'][contains(.,'Отмена')]"));
+    private SelenideElement btnCancel = $(By.xpath("//div[contains(text(),'Отмена')]/.."));
 
     @NameTag(name = "кнопка {Закрыть}")
     private SelenideElement btnCloseModal = $(By.xpath("//div[contains(text(),'Закрыть')]/.."));
+
+    @NameTag(name = "кнопка {Сохранить}")
+    private SelenideElement btnSaveModal = $(By.xpath("//div[contains(text(),'Сохранить')]/.."));
 
 
     public void setOrganizationCombobox(String value) {

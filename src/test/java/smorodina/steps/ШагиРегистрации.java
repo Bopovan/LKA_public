@@ -138,6 +138,15 @@ public class ШагиРегистрации {
         page4.setNewEmail(getRANDOMMAIL(), getRANDOMPASSWORD());
     }
 
+    @When("на странице смены пароля заполнить поля новым паролем и ввести для подтверждения старый")
+    public void resetPassword() {
+        log.trace("\n\n_______________________\n\n Вводим текущий старый пароль: {}",this::getRANDOMPASSWORD);
+        page4.typeOldPassword(getRANDOMPASSWORD());
+        setRANDOMPASSWORD();
+        log.trace("\n\n_______________________\n\n Вводим текущий НОВЫЙ пароль: {}",this::getRANDOMPASSWORD);
+        page4.typeNewPassword(getRANDOMPASSWORD());
+    }
+
     @When("повторно авторизоваться под сгенерированным пользователем")
     public void reAut() {
         page3.loginField.shouldBe(Condition.visible).setValue(getRANDOMMAIL());
