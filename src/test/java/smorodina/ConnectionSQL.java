@@ -24,11 +24,30 @@ public class ConnectionSQL {
         return conn;
     }
 
-    public String getCodeActivation(String nameAcc) throws SQLException, ClassNotFoundException {
+//    public String getCodeActivation(String nameAcc) throws SQLException, ClassNotFoundException {
+//        log.trace("\n_______________________________________________\n\nВАЖНО! Проверьте подключены ли Вы к ВПН, доступ до базы данных требует локального подключения с доступами\n\n___________________________________________________________");
+//        Connection conn = getOracleConnection();
+//        Statement stmnt = conn.createStatement();
+//        String SQL = "SELECT NM_CODE_ACTIVATION FROM LKK_CODE_ACTIVATION lca WHERE NM_ABONENT_LOGIN = " + "'" + nameAcc + "'";
+//        String value = "";
+//        ResultSet rset = stmnt.executeQuery(SQL);
+//        while (rset.next()) {
+//            value = value + rset.getString(1);
+//        }
+//        Assert.assertNotNull(value);
+//        System.out.println(value);
+//        rset.close();
+//        stmnt.close();
+//        return value;
+//    }
+
+
+    public String getCodeActivation(String sql, String nameAcc) throws SQLException, ClassNotFoundException {
         log.trace("\n_______________________________________________\n\nВАЖНО! Проверьте подключены ли Вы к ВПН, доступ до базы данных требует локального подключения с доступами\n\n___________________________________________________________");
         Connection conn = getOracleConnection();
         Statement stmnt = conn.createStatement();
-        String SQL = "SELECT NM_CODE_ACTIVATION FROM LKK_CODE_ACTIVATION lca WHERE NM_ABONENT_LOGIN = " + "'" + nameAcc + "'";
+        String SQL = sql + "'" + nameAcc + "'";
+//        String SQL = "SELECT NM_CODE_ACTIVATION FROM LKK_CODE_ACTIVATION lca WHERE NM_ABONENT_LOGIN = " + "'" + nameAcc + "'";
         String value = "";
         ResultSet rset = stmnt.executeQuery(SQL);
         while (rset.next()) {
@@ -42,18 +61,24 @@ public class ConnectionSQL {
     }
 
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Connection conn = getOracleConnection();
-        Statement stmnt = conn.createStatement();
-        ResultSet rset = stmnt.executeQuery("SELECT NM_CODE_ACTIVATION FROM LKK_CODE_ACTIVATION lca WHERE NM_ABONENT_LOGIN = '9028143539'");
-        String value = "";
-        while (rset.next()) {
-            value = value + rset.getString(1);
-        }
-        Assert.assertNotNull(value);
-        System.out.println(value);
-        rset.close();
-        stmnt.close();
 
-    }
+
+
+
+
+
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+//        Connection conn = getOracleConnection();
+//        Statement stmnt = conn.createStatement();
+//        ResultSet rset = stmnt.executeQuery("SELECT NM_CODE_ACTIVATION FROM LKK_CODE_ACTIVATION lca WHERE NM_ABONENT_LOGIN = '9028143539'");
+//        String value = "";
+//        while (rset.next()) {
+//            value = value + rset.getString(1);
+//        }
+//        Assert.assertNotNull(value);
+//        System.out.println(value);
+//        rset.close();
+//        stmnt.close();
+//
+//    }
 }

@@ -9,10 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.passay.PasswordGenerator;
 import smorodina.ConnectionSQL;
-import smorodina.pages.ВклНастройки;
-import smorodina.pages.МОкноКодПодтверждения;
-import smorodina.pages.ОкноАвторизации;
-import smorodina.pages.ОкноРегистрации;
+import smorodina.pages.*;
 
 import javax.mail.*;
 import java.sql.SQLException;
@@ -33,10 +30,20 @@ public class ШагиРегистрации {
     МОкноКодПодтверждения page2 = new МОкноКодПодтверждения();
     ОкноАвторизации page3 = new ОкноАвторизации();
     ВклНастройки page4 = new ВклНастройки();
+    ОкноТехПоддержки page5 = new ОкноТехПоддержки();
 
     private String RANDOMMAIL = "";
     private String RANDOMPASSWORD = "";
+    private String SUPPORTNUMBER = "";
 
+    public String getSUPPORTNUMBER() {
+        return SUPPORTNUMBER;
+    }
+
+
+    public void setSUPPORTNUMBER() {
+        this.SUPPORTNUMBER = page5.getSupportNumberFromForm();
+    }
 
     public String getRANDOMPASSWORD() {
         return RANDOMPASSWORD;
@@ -118,7 +125,8 @@ public class ШагиРегистрации {
     }
 
     public void setAccCode() throws SQLException, ClassNotFoundException {
-        String sqlValue = sql.getCodeActivation(getRANDOMMAIL());
+        String sqlV = "SELECT NM_CODE_ACTIVATION FROM LKK_CODE_ACTIVATION lca WHERE NM_ABONENT_LOGIN = ";
+        String sqlValue = sql.getCodeActivation(sqlV, getRANDOMMAIL());
         String emailValue = getLastMessageMail();
         int count = 0;
         while (!sqlValue.equals(emailValue) && count < 10) {
@@ -127,6 +135,20 @@ public class ШагиРегистрации {
             count++;
         }
         page2.fieldConfirmationCode.shouldBe(Condition.visible).setValue(emailValue);
+    }
+
+    public void checkSupportIsTrue() throws SQLException, ClassNotFoundException {
+        String sqlV = "SELECT USER_EMAIL FROM LKK_FEEDBACK_LOG WHERE ID_FEEDBACK = ";
+        setSUPPORTNUMBER();
+        String sqlValue = sql.getCodeActivation(sqlV, getSUPPORTNUMBER());
+        String emailValue = getRANDOMMAIL();
+        int count = 0;
+        log.trace("проверяем равны ли показания {} и {}", sqlValue, emailValue);
+        while (!sqlValue.equals(emailValue) && count < 5) {
+            log.trace("Ожидаем 5 секунд и проверяем равны ли показания {} и {} где count = {}", sqlValue, emailValue, count);
+            Selenide.sleep(5000);
+            count++;
+        }
     }
 
     public void getLastCode() {
@@ -140,10 +162,10 @@ public class ШагиРегистрации {
 
     @When("на странице смены пароля заполнить поля новым паролем и ввести для подтверждения старый")
     public void resetPassword() {
-        log.trace("\n\n_______________________\n\n Вводим текущий старый пароль: {}",this::getRANDOMPASSWORD);
+        log.trace("\n\n_______________________\n\n Вводим текущий старый пароль: {}", this::getRANDOMPASSWORD);
         page4.typeOldPassword(getRANDOMPASSWORD());
         setRANDOMPASSWORD();
-        log.trace("\n\n_______________________\n\n Вводим текущий НОВЫЙ пароль: {}",this::getRANDOMPASSWORD);
+        log.trace("\n\n_______________________\n\n Вводим текущий НОВЫЙ пароль: {}", this::getRANDOMPASSWORD);
         page4.typeNewPassword(getRANDOMPASSWORD());
     }
 
@@ -182,5 +204,10 @@ public class ШагиРегистрации {
     @Then("сгенерировать тестовую почту")// старый почтовый ящик затирается
     public void genEmail() {
         setRANDOMMAIL();
+    }
+
+    @When("проверить, что в БД в таблице LKK_FEEDBACK_LOG создана запись об обращении")
+    public void checkSupportSubmit() throws SQLException, ClassNotFoundException {
+        checkSupportIsTrue();
     }
 }

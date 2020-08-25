@@ -27,7 +27,7 @@ import static smorodina.Utils.PageElement.*;
 
 public class ОбщиеШаги {
     //________________________________________________________________________________________________
-    public int implicityWait = 10000; // - ожидание отображения элемента или срабатывание кнопки
+    public int implicityWait = 11000; // - ожидание отображения элемента или срабатывание кнопки
     //________________________________________________________________________________________________
 
 
@@ -36,7 +36,7 @@ public class ОбщиеШаги {
     @When("на {string} нажать на {string}")
     public void pressBtn(String page, String element) throws Exception {
         log.debug("\n\n_______________________\n\nНа странице {} нажимаем на элемент {}\n\n_______________\n\n", page, element);
-        getElement(page, element).waitUntil(Condition.visible, implicityWait).click();
+        getElement(page, element).waitUntil(Condition.visible, implicityWait).scrollTo().click();
     }
 
     @When("на {string} в комбобоксе {string} выбрать значение {string}")
@@ -70,7 +70,7 @@ public class ОбщиеШаги {
     @When("проверить, что элемент с текстом {string} отображается")
     public void checkWindowIsDisplayed( String text) throws Exception {
         log.debug("\n\n_______________________\n\nНа странице  проверяем, что элемент с текстом {} отображается\n\n_______________\n\n", text);
-        String xpath = "//div[contains(text(),'%s')]";
+        String xpath = "//*[contains(text(),'%s')]";
         SelenideElement element = $(By.xpath(String.format(xpath,text)));
         element.waitUntil(Condition.visible, implicityWait);
     }

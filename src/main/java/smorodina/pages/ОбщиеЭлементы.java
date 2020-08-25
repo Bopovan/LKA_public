@@ -32,6 +32,9 @@ public class ОбщиеЭлементы {
     @NameTag(name = "Кнопка {Отмена}")
     private SelenideElement btnCancel = $(By.xpath("//div[contains(text(),'Отмена')]/.."));
 
+    @NameTag(name = "Кнопка {Отправить}")
+    private SelenideElement btnSend = $(By.xpath("//div[contains(text(),'Отправить')]/.."));
+
     @NameTag(name = "кнопка {Закрыть}")
     private SelenideElement btnCloseModal = $(By.xpath("//div[contains(text(),'Закрыть')]/.."));
 
