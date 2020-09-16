@@ -22,8 +22,6 @@ public class ВклНастройки {
     Вложенная вкладка ЛИЦЕВЫЕ СЧЕТА
     */
 
-
-
     @NameTag(name = "Кнопка Подключить Лицевой Счет")
     private SelenideElement btnAddAcc = $(By.xpath("//*[contains(text(), 'Подключить лицевой счет')]/.."));
 
@@ -35,6 +33,20 @@ public class ВклНастройки {
 
     @NameTag(name = "Коллекция строк в таблице")
     private String checkAccInTableIsDisplay = "//tr[contains(.,'%s')]";
+
+    @NameTag(name = "Кнопка Переименовать")
+    private String btnRename = "//tr[contains(.,'%s')]/td[2]//*[text() = 'Переименовать']/..";
+
+    //Всплывающее окно при переименовании счёта
+
+    @NameTag(name = "Поле для ввода Нового имени счёта")
+    private SelenideElement fieldRenameAcc = $(By.xpath("//input[@type = 'text']"));
+
+    @NameTag(name = "Кнопка {Сохранить}")
+    private SelenideElement popUpBtnSave = $(By.xpath("//button[@class = 'abrr-ui-button primary uppercase fullwidth']"));
+
+    @NameTag(name = "Кнопка {Х}")
+    private SelenideElement popUpBtnClose = $(By.xpath("//button[@class = 'abrr-ui-modal-closeButton']")); //проверить, эелемент общий? на всех вспылвающих окнах?
 
     /*
     Вложенная вкладка ПРОФИЛЬ
@@ -90,8 +102,7 @@ public class ВклНастройки {
     private SelenideElement btnAddCards = $(By.xpath("//*[contains(@class ,'abrr-ui-plastic-card-addcard')]"));
 
 
-    @NameTag(name = "Кнопка Переименовать")
-    private String btnRename = "//tr[contains(.,'%s')]/td[3]//*[@class = 'abrr-ui-button primary ghost']";
+
 
     @NameTag(name = "Кнопка отключить")
     private String btnOff = "//td//div[contains(text(),'%s')]/../../../../td/div//button[contains(@class,'red')]";
@@ -111,14 +122,7 @@ public class ВклНастройки {
     @NameTag(name = "Номер счёта в окне Переименовать аккаунт")
     private String popNumAcc = "//div[@class = 'abrr-ui-title-subtitle'][contains(text(),'%s')]";
 
-    @NameTag(name = "Поле для ввода Нового имени счёта")
-    private SelenideElement fieldRenameAcc = $(By.xpath("//input[@type = 'text']"));
 
-    @NameTag(name = "Всплывающее окно/ Кнопка {Сохранить}")
-    private SelenideElement popUpBtnSave = $(By.xpath("//button[@class = 'abrr-ui-button primary uppercase fullwidth']"));
-
-    @NameTag(name = "Всплывающее окно/ Кнопка {Х}")
-    private SelenideElement popUpBtnClose = $(By.xpath("//button[@class = 'abrr-ui-modal-closeButton']")); //проверить, эелемент общий? на всех вспылвающих окнах?
 
     @NameTag(name = "Имя карты в системе")
     private SelenideElement cardName = $(By.xpath("//div[contains(@class,'abrr-ui-title-title small')]"));

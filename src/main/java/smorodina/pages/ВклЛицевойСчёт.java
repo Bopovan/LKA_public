@@ -2,6 +2,7 @@ package smorodina.pages;
 
 import com.codeborne.selenide.*;
 import io.cucumber.java.en.When;
+import org.apache.hc.core5.util.Asserts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -28,6 +29,63 @@ public class ВклЛицевойСчёт {
 
     @NameTag(name = "Страница Лицевой счёт")
     private final SelenideElement firstWindow = $(By.xpath("//div[@class = 'lk-page-accountview-widget']/../.."));
+
+    @NameTag(name = "Вложенная вкладка Заявки")
+    private final SelenideElement subTab6 = $(By.xpath("//div[text()='Заявки']/.."));
+
+
+
+    /*
+    Элементы карточки Заявки
+     */
+    @NameTag(name = "текст \'Заявка на перерасчет\'")
+    private final SelenideElement textField = $(By.xpath("//div[contains(@class, 'abrr-ui-title-title')]"));
+
+    @NameTag(name = "Кнопка {Заявка на перерасчет}")
+    private final SelenideElement btnRePrice = $(By.xpath("//i[contains(@class, 'abrr-ui-button-icon')]//..//../div[text() = 'Заявка на перерасчет']/.."));
+
+    @NameTag(name = "Комбобокс Причина перерасчета")
+    private final SelenideElement reasonReValue = $(By.xpath("//div[@role= 'combobox']"));
+
+    @NameTag(name = "Пункт Изменение количества проживаюших")
+    private final SelenideElement changeRatioMan = $(By.xpath("//li[text() = 'Изменение количества проживаюших']"));
+
+    @NameTag(name = "Пункт Изменение отапливаемой площади")
+    private final SelenideElement changeRoomSize = $(By.xpath("//li[text() = 'Пункт Изменение отапливаемой площади']"));
+
+//    @NameTag(name = "Комбобокс {Причина перерасчета}")
+//    private final SelenideElement comboboxReprice = $(By.xpath("//i[contains(@class, 'abrr-ui-button-icon')]//..//../div[text() = 'Заявка на перерасчет']/.."));
+
+    @NameTag(name = "Календарь Дата начала действия перерасчета")
+    private final SelenideElement calendarStart = $(By.xpath("//input[@placeholder = 'Дата начала действия перерасчета']"));
+
+    @NameTag(name = "поле для ввода Даты в календаре")
+    private final SelenideElement fieldCalendarStart = $(By.xpath("//input[@class = 'ant-calendar-input ']"));
+
+    @NameTag(name = "поле Количество проживающих")
+    private final SelenideElement fieldCountNeib = $(By.xpath("//label[text()='Количество проживающих']/following-sibling::div/input"));
+
+    @NameTag(name = "поле Комментарий")
+    private final SelenideElement fieldComment = $(By.xpath("//label[text()='Комментарий']/following-sibling::div/textarea"));
+
+    @NameTag(name = "прикерпить Документ, подтверждающий количество лиц")
+    private final SelenideElement placeForDoc1 = $(By.xpath("//span[contains(text(),'Документ, подтверждающий количество лиц, проживающих в жилых помещениях многоквартирных домов и жилых домов (справка о составе семьи, домовая книга)')]/following-sibling::div//input"));
+
+    @NameTag(name = "прикерпить Акт обследования")
+    private final SelenideElement placeForDoc2 = $(By.xpath("//span[contains(text(),'Акт обследования отсутствия технической возможности установки прибора учета')]/following-sibling::div//input"));
+
+    public void addDocs(){
+        placeForDoc1.sendKeys("C:\\Users\\scherbakova\\IdeaProjects\\lka-automated-testing\\src\\main\\resources\\test_Files\\file_forSM0004_1.pdf");
+        placeForDoc2.sendKeys("C:\\Users\\scherbakova\\IdeaProjects\\lka-automated-testing\\src\\main\\resources\\test_Files\\file_forSM0004_2.jpeg");
+    }
+
+    @NameTag(name = "кнопка Отправить заявление на перерасчет")
+    private final SelenideElement btnSendReq = $(By.xpath("//div[text()='Отправить заявление на перерасчет']/.."));
+
+
+    @NameTag(name = "Окно подтверждения, что заявка создана")
+    private final SelenideElement successOrder = $(By.xpath("//h1[text()='Успешно!']/following-sibling::div/div[text()='Ваша заявка успешно отправлена!']"));
+
 
     /*
     Элементы карточки УСЛУГИ
@@ -101,7 +159,8 @@ public class ВклЛицевойСчёт {
     public void clickDetail() {
         Date date = new Date();
         String currentDate = String.format("%1$s%2$td %2$tB %2$tY", "", date);
-        String rub = page.getValueInAllSumFields();
+//        String rub = page.getValueInAllSumFields();
+        String rub = "39";
         System.out.println(rub);
         SelenideElement btnDetail = $(By.xpath(String.format(btnDetailForXpath, currentDate, rub)));
         int count = 0;

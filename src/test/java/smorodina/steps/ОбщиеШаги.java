@@ -58,8 +58,20 @@ public class ОбщиеШаги {
 
     @When("на {string} в поле {string} очистить поле")
     public void cleanField(String page, String field) throws Exception {
-        getElement(page, field).waitUntil(Condition.visible, implicityWait).doubleClick().sendKeys(Keys.BACK_SPACE);
+        getElement(page, field).waitUntil(Condition.visible, implicityWait)
+                .doubleClick()
+                .sendKeys(Keys.BACK_SPACE);
     }
+
+    @When("на {string} очистить поле {string}, если оно заполненно")
+    public void cleanIf(String page, String field) throws IllegalAccessException, ClassNotFoundException {
+        SelenideElement element = getElement(page, field).waitUntil(Condition.visible, implicityWait);
+        int length = element.getValue().length();
+        for (int i = 0; i <= length; i++) {
+            element.sendKeys(Keys.BACK_SPACE);
+        }
+    }
+
 
     @When("на {string} проверить, что элемент {string} отображается")
     public void checkWindowIsDisplayed(String page, String window) throws Exception {
@@ -84,7 +96,7 @@ public class ОбщиеШаги {
     @When("на {string} проверить, что в поле {string}, отображается значение {string}")
     public void checkValueInField(String page, String field, String value) throws Exception {
         log.debug("\n\n_______________________\n\nНа странице {} проверяем, что в поле {} отображается значение \"{}\"\n\n_______________\n\n", page, field, value);
-        String value2 = getElement(page, field).waitUntil(Condition.visible, implicityWait).getValue();
+        String value2 = getElement(page, field).waitUntil(Condition.visible, implicityWait).getText();
         Assert.assertEquals(value, value2);
     }
 
@@ -110,5 +122,7 @@ public class ОбщиеШаги {
     public void exit() {
         new МОкноВыхода().elementaryExit();
     }
+
+
 
 }

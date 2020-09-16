@@ -11,4 +11,9 @@ public class ШагиНаВклЛицевойСчёт {
     public void clickDetail() {
         page.clickDetail();
     }
+
+    @When("в окне Перерасчёта прикрепить Акт и Документ подтверждающий изменения кол-ва проживающих")
+    public void addDocs() {
+        page.addDocs();
+    }
 }

@@ -14,10 +14,11 @@ import static com.codeborne.selenide.Selenide.$;
 public class ОкноАвторизации {
 
     Configuration configuration;
-
-
     private Configuration getConfiguration() {
         Configuration.browser = "chrome"; //ie //chrome //edje //opera //firefox
+        Configuration.timeout= 1000;
+        Configuration.driverManagerEnabled = true;
+        Configuration.browserVersion = "73.0.3683.75";
         Configuration.startMaximized = true;
 //        Configuration.reopenBrowserOnFail = true;
         Configuration.holdBrowserOpen = false;

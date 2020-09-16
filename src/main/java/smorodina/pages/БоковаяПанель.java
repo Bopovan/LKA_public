@@ -27,7 +27,7 @@ public class БоковаяПанель {
     private SelenideElement activeAccountNumber = $(By.xpath("//*[@class = 'anticon anticon-solution lk-mainframe-nav-accountselect-personicon']/preceding-sibling::div/div[1]"));
 
     @NameTag(name = "Описание активного счёта")
-    private SelenideElement DescriptionOfActiveAccount = $(By.xpath("//*[@class = 'anticon anticon-solution lk-mainframe-nav-accountselect-personicon']/preceding-sibling::div/div[2]"));
+    private SelenideElement DescriptionOfActiveAccount = $(By.xpath("//*[@class = 'anticon anticon-solution lk-mainframe-nav-accountselect-personicon']/preceding-sibling::div/div[2]/."));
 
     @NameTag(name = "Коллекция подключенных счетов")
     private String collectionConnectedAccounts = "//div[contains(@class, 'lk-mainframe-accountlist')]//button//div[contains(text(),'%s')]/../../../..";
