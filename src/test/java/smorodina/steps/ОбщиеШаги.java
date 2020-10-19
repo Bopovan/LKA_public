@@ -26,8 +26,9 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static smorodina.Utils.PageElement.*;
 
 public class ОбщиеШаги {
+
     //________________________________________________________________________________________________
-    public int implicityWait = 11000; // - ожидание отображения элемента или срабатывание кнопки
+    public int implicityWait = 11000;
     //________________________________________________________________________________________________
 
 

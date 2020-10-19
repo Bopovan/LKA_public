@@ -56,7 +56,6 @@
                     <filesets>
                         <fileset>
                             <directory>allure-results</directory>
-                            <!--                            <followSymlinks>false</followSymlinks>-->
                         </fileset>
                     </filesets>
                 </configuration>
@@ -99,12 +98,6 @@
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>4.7.2</version>
-            <!--            <exclusions>-->
-            <!--                <exclusion>-->
-            <!--                    <groupId>io.cucumber</groupId>-->
-            <!--                    <artifactId>cucumber-core</artifactId>-->
-            <!--                </exclusion>-->
-            <!--            </exclusions>-->
         </dependency>
 
         <dependency>

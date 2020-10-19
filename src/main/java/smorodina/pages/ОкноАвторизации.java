@@ -4,21 +4,34 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.conditions.Not;
+import com.codeborne.selenide.conditions.Visible;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import smorodina.Utils.NameTag;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
+
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class ОкноАвторизации {
 
     Configuration configuration;
+
     private Configuration getConfiguration() {
         Configuration.browser = "chrome"; //ie //chrome //edje //opera //firefox
-        Configuration.timeout= 1000;
+        Configuration.timeout = 1000;
         Configuration.driverManagerEnabled = true;
-        Configuration.browserVersion = "73.0.3683.75";
+//        Configuration.browserVersion = "73.0.3683.75";
         Configuration.startMaximized = true;
 //        Configuration.reopenBrowserOnFail = true;
         Configuration.holdBrowserOpen = false;
@@ -93,6 +106,60 @@ public class ОкноАвторизации {
 
     public void pressEnterButton() {
         enterButton.click();
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        try{
+            Configuration conf = new Configuration();
+            Selenide.open("https://xn--80awhdgm.xn--80ahmohdapg.xn--80asehdb/");
+            int времяОжидания = 5000;
+
+            SelenideElement полеЛогин = $(By.xpath("//*[@placeholder= 'Логин']"));
+            SelenideElement полеПароль = $(By.xpath("//*[@placeholder= 'Пароль']"));
+            SelenideElement кнопкаВхода = $(By.xpath("//*[@class = \'Entrance__submit\']"));
+
+            SelenideElement текстПриветствия = $(By.xpath("//*[contains(text(),'Здравствуйте, ')]"));
+            SelenideElement кнпокаЛКА = $(By.xpath("//*[contains(@href, '/LK/')]"));
+            SelenideElement текстСтатистика = $(By.xpath("//*[contains(text(),'Статистика подключенных лицевых счетов')]"));
+            SelenideElement кнопкаСоздатьОтчет = $(By.xpath("//span[contains(text(),'Создать отчет')]"));
+            SelenideElement текстНовыйОтчет = $(By.xpath("//*[contains(text(),'Новый отчет')]"));
+            SelenideElement кнопкаТипОтчета = $(By.xpath("//div[contains(text(),'Список подключенных ЛС за период')]/following-sibling::button"));
+            SelenideElement пунктСтатистикаПлатежейЗаПериодПоВсемРГК = $(By.xpath("//div[contains(text(),'Статистика платежей за период по всем РГК')]"));
+            SelenideElement кнопкаСформироватьОтчет = $(By.xpath("//*[contains(text(),'Сформировать отчет')]/../../.."));
+            SelenideElement текстПодождитеПокаСкачивается = $(By.xpath("//*[contains(text(),'Идет подготовка файла, подождите...')]"));
+
+
+            полеПароль.waitUntil(Condition.visible, времяОжидания);
+            полеЛогин.shouldBe(Condition.visible).setValue("admin");
+            полеПароль.shouldBe(Condition.visible).setValue("devv327SeSe");
+            кнопкаВхода.click();
+            текстПриветствия.waitUntil(Condition.visible, времяОжидания);
+            кнпокаЛКА.shouldBe(Condition.visible).click();
+
+            for (int j = 0; j < 200; j++) {
+                текстСтатистика.waitUntil(Condition.visible, времяОжидания);
+                кнопкаСоздатьОтчет.shouldBe(Condition.visible).click();
+                текстНовыйОтчет.waitUntil(Condition.visible, времяОжидания);
+                кнопкаТипОтчета.shouldBe(Condition.visible).click();
+                пунктСтатистикаПлатежейЗаПериодПоВсемРГК.shouldBe(Condition.visible).click();
+                кнопкаСформироватьОтчет.shouldBe(Condition.visible).click();
+                текстПодождитеПокаСкачивается.waitUntil(Condition.hidden, 6000000);
+                Selenide.sleep(1800000);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            main(args);
+        }
+
+
+//        int length = Objects.requireNonNull(new File("../lka-automated-texting/build/downloads/").list()).length;
+//        while(length != length + 1){
+//            Selenide.sleep(1000);
+//            length = Objects.requireNonNull(new File("../lka-automated-texting/build/downloads/").list()).length;
+//        }
+
+
     }
 
 }

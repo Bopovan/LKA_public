@@ -40,7 +40,6 @@ public class ШагиРегистрации {
         return SUPPORTNUMBER;
     }
 
-
     public void setSUPPORTNUMBER() {
         this.SUPPORTNUMBER = page5.getSupportNumberFromForm();
     }
@@ -48,7 +47,6 @@ public class ШагиРегистрации {
     public String getRANDOMPASSWORD() {
         return RANDOMPASSWORD;
     }
-
 
     public void setRANDOMPASSWORD() {
         PasswordGenerator psw = new PasswordGenerator();
@@ -199,7 +197,6 @@ public class ШагиРегистрации {
     public void genNewUser() {
         preSetRegistration();
     }
-
 
     @Then("сгенерировать тестовую почту")// старый почтовый ящик затирается
     public void genEmail() {

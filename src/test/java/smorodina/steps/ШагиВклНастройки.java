@@ -41,7 +41,6 @@ public class ШагиВклНастройки {
         вклНастройки.cardIsNotDisplayed(num);
     }
 
-
     @When("на вклНастройки удалить привязанную карту с последними 4 цифрами:{string}")
     public void deleteCard(String num) {
         вклНастройки.destroyCard(num);
@@ -51,7 +50,6 @@ public class ШагиВклНастройки {
     public void deleteAcc(String numAcc) {
         вклНастройки.destroyAcc(numAcc);
     }
-
 
     @When("на вклНастройки проверить, что лицевой счет: {string} - НЕ отображается")
     public void checkAccIsNotDiplayed(String numAcc) {

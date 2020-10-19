@@ -20,6 +20,7 @@ public class ШагиПередачиПоказаний {
     /*
         Глоабльная переменная
     */
+
     private String value2 = "";
 
     public String getValue2() {
@@ -29,8 +30,6 @@ public class ШагиПередачиПоказаний {
     public void setValue2(String value2) {
         this.value2 = value2;
     }
-
-
 
     @When("К текущему показанию добавить {string}")
     public void addCurrentVAlueNew(String value) {
@@ -60,7 +59,5 @@ public class ШагиПередачиПоказаний {
         log.trace("проверяем, что в истории отображается: {}" , getValue2());
         SelenideElement element = $(By.xpath(String.format(page2.checkHistoryParam,getValue2())))
                 .shouldBe(Condition.visible);
-
-
     }
 }
