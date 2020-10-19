@@ -28,9 +28,8 @@ import static smorodina.Utils.PageElement.*;
 public class ОбщиеШаги {
 
     //________________________________________________________________________________________________
-    public int implicityWait = 11000;
+    public int implicityWait = 5000;
     //________________________________________________________________________________________________
-
 
     private final Logger log = LogManager.getLogger(ОкноАвторизации.class);
 
@@ -73,7 +72,6 @@ public class ОбщиеШаги {
         }
     }
 
-
     @When("на {string} проверить, что элемент {string} отображается")
     public void checkWindowIsDisplayed(String page, String window) throws Exception {
         log.debug("\n\n_______________________\n\nНа странице {} проверяем, что элемент {} отображается\n\n_______________\n\n", page, window);
@@ -111,7 +109,6 @@ public class ОбщиеШаги {
     public void wait(int time) {
         Selenide.sleep(time * 1000);
     }
-
 
     @Then("переключиться на модальное окно под номером {int}")
     public void switchToNewWindow(int numWindow) {

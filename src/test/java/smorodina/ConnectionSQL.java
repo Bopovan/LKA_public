@@ -10,10 +10,10 @@ import java.sql.*;
 public class ConnectionSQL {
     private Logger log = LogManager.getLogger(ConnectionSQL.class);
     public static Connection getOracleConnection() throws ClassNotFoundException, SQLException {
-        String hostName = "172.16.200.248";
-        String sid = "FIRST_ROOM"; //orcl //db11g
-        String userName = "lkk_gas_test";
-        String password = "lkk_gas_test";
+        String hostName = "";
+        String sid = ""; //orcl //db11g
+        String userName = "";
+        String password = "";
 
         return getOracleConnection(hostName, sid, userName, password);
     }
